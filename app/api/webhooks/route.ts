@@ -79,6 +79,50 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
   console.log(`Subscription created/updated and user updated to PRO plan for user ${userId}`);
 }
 
+async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
+  const subscriptionId = subscription.id;
+  const userId = subscription.metadata?.userId;
+
+  if (!userId) {
+    throw new Error('No client_reference_id found in session');
+  }
+  
+}
+async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
+  const subscriptionId = subscription.id;
+  const userId = subscription.metadata?.userId;
+
+  if (!userId) {
+    throw new Error('No client_reference_id found in session');
+  }
+  
+}
+
+async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
+  const subscriptionId = subscription.id;
+  const userId = subscription.metadata?.userId;
+
+  if (!userId) {
+    throw new Error('No client_reference_id found in session');
+  }
+
+  await prisma.subscription.update({
+    where: { userId: userId },
+    data: {
+      plan: PlanType.FREE,
+      expiresAt: new Date(subscription.current_period_end * 1000),
+    },
+  });
+  
+  await prisma.user.update({
+    where: { id: userId },
+    data: { plan: PlanType.FREE },
+  });
+
+  console.log(`Subscription cancelled and user reverted to FREE plan for user ${userId}`);
+
+} 
+
 async function handleSubscriptionCancelled(subscription: Stripe.Subscription) {
   const subscriptionId = subscription.id;
 

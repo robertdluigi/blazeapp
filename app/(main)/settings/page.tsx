@@ -6,9 +6,10 @@ import Link from "next/link";
 import { validateRequest } from '@/auth';
 import { authorizeUrl, clientID, appCallbackUrl } from '@/lib/riot';
 import UserRiotData from "./UserRiotData";
-
 import AccountSettings from "./AccountSettings";
 import ProfileSettings from "./ProfileSettings";
+import BillingSettings from "./BillingSettings";
+import prisma from "@/lib/prisma";
 
 async function fetchSteamData(steamID: string) {
     try {
@@ -46,14 +47,22 @@ export default async function Settings() {
         steamData = await fetchSteamData(steamID);
     }
 
+    const subscription = await prisma.subscription.findUnique({
+        where: { userId: user.id },
+    });
+
+    const currentPlan = subscription?.plan || "FREE";
+
     return (
         <main className="container mx-auto py-10">
             <Tabs defaultValue="account" className="space-y-6">
-                <TabsList className="grid w-full grid-cols-4">
+                <TabsList className="grid w-full grid-cols-5">
                     <TabsTrigger value="account">Account</TabsTrigger>
                     <TabsTrigger value="profile">Profile</TabsTrigger>
                     <TabsTrigger value="connections">Connections</TabsTrigger>
+                    <TabsTrigger value="billing">Billing</TabsTrigger>
                     <TabsTrigger value="privacy">Privacy</TabsTrigger>
+                    
                 </TabsList>
 
                 <TabsContent value="account">
@@ -144,6 +153,21 @@ export default async function Settings() {
                         </CardHeader>
                         <CardContent>
                             {/* Add privacy settings content here */}
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                <TabsContent value="billing">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Billing Settings</CardTitle>
+                            <CardDescription>Manage your subscription and billing details.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <BillingSettings 
+                                currentPlan={currentPlan} 
+                                stripeCustomerId={user.stripeCustomerId as string} 
+                            />
                         </CardContent>
                     </Card>
                 </TabsContent>

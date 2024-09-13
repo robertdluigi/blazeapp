@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import { validateRequest } from "@/auth";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     const { user } =  await validateRequest();
@@ -30,8 +32,8 @@ export async function GET(request: Request) {
     }
 
     const stripeSession = await stripe.checkout.sessions.create({
-      success_url: `${process.env.URL}/subscribe?success=true&session_id={CHECKOUT_SESSION_ID}&&userId=${userId}`,
-      cancel_url: `${process.env.URL}/subscribe?canceled=true`,
+      success_url: `${process.env.URL}/settings?success=true&session_id={CHECKOUT_SESSION_ID}&&userId=${userId}`,
+      cancel_url: `${process.env.URL}/settings?canceled=true`,
       payment_method_types: ["card"],
       mode: "subscription",
       billing_address_collection: "auto",
@@ -39,12 +41,12 @@ export async function GET(request: Request) {
       line_items: [
         {
           price_data: {
-            currency: "USD",
+            currency: "EUR",
             product_data: {
-              name: "Genius Pro",
-              description: "Unlimitted AI Generations",
+              name: "Pro Plan",
+              description: "Unlock Blaze Pro",
             },
-            unit_amount: 2000,
+            unit_amount: 500,
             recurring: {
               interval: "month",
             },

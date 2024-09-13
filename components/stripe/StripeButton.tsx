@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 
 interface StripeButtonProps {
-  priceId: string;
+  onSuccess?: () => void;
+  className?: string;
 }
 
-const StripeButton = () => {
+const StripeButton: React.FC<StripeButtonProps> = ({ onSuccess, className }) => {
     const onSubscribe = async () => {
         try {
           const response = await axios.get("/api/stripe/checkout-session");
@@ -21,7 +22,7 @@ const StripeButton = () => {
       };
 
     return (
-        <Button onClick={onSubscribe}>Subscribe</Button>
+        <Button onClick={onSubscribe}  className={className}>Subscribe</Button>
     )
 }
 
