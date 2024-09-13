@@ -1,8 +1,6 @@
 {
   "/api/notifications/unread-count/route": "app/api/notifications/unread-count/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/api/users/[userId]/sections/route": "app/api/users/[userId]/sections/route.js",
-  "/api/users/username/[username]/route": "app/api/users/username/[username]/route.js",
   "/(main)/users/[username]/page": "app/(main)/users/[username]/page.js",
   "/(main)/settings/page": "app/(main)/settings/page.js"
 }

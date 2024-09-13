@@ -3,6 +3,7 @@
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { CreateSectionInput, getSectionDataInclude, ProfileSection } from "@/lib/types";
+import { revalidatePath } from "next/cache";
 
 export async function createSection(input: CreateSectionInput): Promise<ProfileSection> {
     // Validate the request and retrieve the user
@@ -29,4 +30,17 @@ export async function createSection(input: CreateSectionInput): Promise<ProfileS
 
     // Return the newly created section
     return newSection as ProfileSection;
+}
+
+export async function updateSectionOrder(userId: string, newOrder: string[]): Promise<void> {
+    await prisma.$transaction(
+      newOrder.map((sectionId, index) =>
+        prisma.profileSection.update({
+          where: { id: sectionId, userId },
+          data: { order: index + 1 }, // +1 because we want to start from 1, not 0
+        })
+      )
+    );
+  
+    revalidatePath(`/users/${userId}`);
 }

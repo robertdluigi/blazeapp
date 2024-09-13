@@ -12,25 +12,36 @@ import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from 
 interface SectionAddDialogProps {
     userId: string;
     onAddSection: (section: ProfileSection) => void;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    currentSectionsCount: number;
 }
 
-const SectionAddDialog: React.FC<SectionAddDialogProps> = ({ userId, onAddSection }) => {
+const SectionAddDialog: React.FC<SectionAddDialogProps> = ({ 
+    userId, 
+    onAddSection, 
+    open, 
+    onOpenChange,
+    currentSectionsCount
+}) => {
     const [title, setTitle] = React.useState('');
     const [content, setContent] = React.useState('');
     const [type, setType] = React.useState<SectionType>(SectionType.USER_LEAGUE_FAV_CHAMPIONS);
-    const [order, setOrder] = React.useState(0);
     const { mutate: createSection, isPending } = useCreateSection();
     const { toast } = useToast();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const newOrder = currentSectionsCount + 1;
+
         createSection(
-            { title, content, type, order, userId },
+            { title, content, type, order: newOrder, userId },
             {
                 onSuccess: (newSection) => {
                     onAddSection(newSection);
                     resetForm();
+                    onOpenChange(false);
                 },
                 onError: (error) => {
                     toast({
@@ -46,14 +57,10 @@ const SectionAddDialog: React.FC<SectionAddDialogProps> = ({ userId, onAddSectio
         setTitle('');
         setContent('');
         setType(SectionType.USER_LEAGUE_FAV_CHAMPIONS);
-        setOrder(0);
     };
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="outline">+ Add New Section</Button>
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogTitle>Add New Section</DialogTitle>
                 <form onSubmit={handleSubmit} className="space-y-4">

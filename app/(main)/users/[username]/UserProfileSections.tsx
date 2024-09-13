@@ -1,16 +1,22 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, rectSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripHorizontal, Loader2 } from 'lucide-react';
+import { GripHorizontal, Plus } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
+import SectionAddDialog from './SectionAddDialog';
+import { useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
 import UserProfileSection from './UserProfileSection';
 import { SectionType } from '@/lib/sections';
 import { $Enums } from '@prisma/client';
 import ky from '@/lib/ky';
+import { updateSectionOrder } from './sections/actions';
+import { toast } from '@/components/ui/use-toast';
 
 type ProfileSection = {
   id: string;
@@ -52,22 +58,23 @@ const SortableSection = ({ section, isEditMode }: { section: ProfileSection; isE
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
   };
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative bg-gray-800 rounded-lg p-4 transition-all duration-500 ease-in-out ${isDragging ? 'z-10 shadow-lg' : ''}`}
+      className={`relative bg-card rounded-lg overflow-visible transition-all duration-300 ease-in-out border border-gray-700 ${
+        isDragging ? 'z-10 shadow-lg opacity-50' : ''
+      }`}
     >
       {isEditMode && (
         <div
           {...attributes}
           {...listeners}
-          className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-700 p-1 rounded cursor-move z-10"
+          className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-700 p-1.5 rounded-full cursor-move z-10"
         >
-          <GripHorizontal size={24} />
+          <GripHorizontal size={20} />
         </div>
       )}
       <UserProfileSection
@@ -84,6 +91,7 @@ const SortableSection = ({ section, isEditMode }: { section: ProfileSection; isE
 const UserProfileSections: React.FC<{ userId: string; isOwner: boolean }> = ({ userId, isOwner }) => {
   const queryClient = useQueryClient();
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isSectionAddDialogOpen, setIsSectionAddDialogOpen] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const { data: sections, isLoading, isError, error } = useQuery<ProfileSection[], Error>({
@@ -109,62 +117,105 @@ const UserProfileSections: React.FC<{ userId: string; isOwner: boolean }> = ({ u
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
 
-    if (active.id !== over.id && sections) {
+    if (active.id !== over?.id && sections) {
       const oldIndex = sections.findIndex((section) => section.id === active.id);
       const newIndex = sections.findIndex((section) => section.id === over.id);
 
-      const newSections = arrayMove(sections, oldIndex, newIndex);
-      queryClient.setQueryData(['profileSections', userId], newSections);
+      if (newIndex !== -1) {
+        const newSections = arrayMove(sections, oldIndex, newIndex);
+        
+        // Optimistically update the UI
+        queryClient.setQueryData(['profileSections', userId], newSections);
 
-      // TODO: Implement API call to update order in the backend
-      console.log('New order:', newSections.map(section => section.id));
+        // Then update the server
+        updateSectionOrder(userId, newSections.map(section => section.id))
+          .catch(() => {
+            // If the update fails, revert to the original order
+            queryClient.setQueryData(['profileSections', userId], sections);
+            toast({
+              title: "Error",
+              description: "Failed to update section order",
+              variant: "destructive",
+            });
+          });
+      }
     }
 
     setActiveId(null);
   };
 
+  const handleAddSection = (newSection: ProfileSection) => {
+    // Add the new section to your sections state
+    if (sections) {
+      // Update the local cache
+      queryClient.setQueryData(['profileSections', userId], [...sections, newSection]);
+    }
+    setIsSectionAddDialogOpen(false);
+  };
+
   if (isLoading) return <Loader2 className="mx-auto my-3 animate-spin" />;
   if (isError) return <p className="text-center text-red-500">Error: {error.message}</p>;
-  if (!sections || sections.length === 0) return <p className="text-center">No profile sections available</p>;
 
   return (
-    <div className="user-profile-sections p-4 bg-gray-900">
+    <div className="user-profile-sections p-4">
       {isOwner && (
-        <div className="flex items-center mb-4">
-          <Switch
-            checked={isEditMode}
-            onCheckedChange={setIsEditMode}
-            className="mr-4"
-          />
-          <span className="text-gray-400">{isEditMode ? 'Edit Mode' : 'View Mode'}</span>
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center space-x-2">
+            <Switch
+              checked={isEditMode}
+              onCheckedChange={setIsEditMode}
+              id="edit-mode"
+            />
+            <label htmlFor="edit-mode" className="text-gray-300">Edit Mode</label>
+          </div>
+          {isEditMode && (
+            <Button
+              onClick={() => setIsSectionAddDialogOpen(true)}
+              variant="outline"
+              size="sm"
+              className="bg-gray-800 text-gray-300 hover:bg-gray-700"
+            >
+              <Plus className="mr-2 h-4 w-4" /> New Section
+            </Button>
+          )}
         </div>
       )}
 
-      <DndContext 
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext 
-          items={sections.map(s => s.id)}
-          strategy={rectSortingStrategy}
+      {sections && sections.length > 0 && (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {sections.map((section) => (
-              <SortableSection key={section.id} section={section} isEditMode={isEditMode} />
-            ))}
-          </div>
-        </SortableContext>
-        <DragOverlay>
-          {activeId ? (
-            <SortableSection 
-              section={sections.find(s => s.id === activeId)!} 
-              isEditMode={isEditMode} 
-            />
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+          <SortableContext 
+            items={sections.map(s => s.id)}
+            strategy={rectSortingStrategy}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {sections.map((section) => (
+                <SortableSection key={section.id} section={section} isEditMode={isEditMode} />
+              ))}
+            </div>
+          </SortableContext>
+          <DragOverlay>
+            {activeId ? (
+              <SortableSection 
+                section={sections.find(s => s.id === activeId)!} 
+                isEditMode={isEditMode} 
+              />
+            ) : null}
+          </DragOverlay>
+        </DndContext>
+      )}
+
+      <SectionAddDialog
+        userId={userId}
+        onAddSection={handleAddSection}
+        open={isSectionAddDialogOpen}
+        onOpenChange={setIsSectionAddDialogOpen}
+        currentSectionsCount={sections?.length ?? 0}
+      />
     </div>
   );
 };
