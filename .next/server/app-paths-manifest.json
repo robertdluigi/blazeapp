@@ -1,11 +1,8 @@
 {
-  "/api/users/[userId]/posts/route": "app/api/users/[userId]/posts/route.js",
-  "/api/notifications/unread-count/route": "app/api/notifications/unread-count/route.js",
-  "/api/users/[userId]/riot/league/matches/route": "app/api/users/[userId]/riot/league/matches/route.js",
-  "/api/users/[userId]/riot/league/match/[matchId]/route": "app/api/users/[userId]/riot/league/match/[matchId]/route.js",
   "/api/posts/for-you/route": "app/api/posts/for-you/route.js",
-  "/api/posts/[postId]/likes/route": "app/api/posts/[postId]/likes/route.js",
+  "/api/users/username/[username]/route": "app/api/users/username/[username]/route.js",
+  "/api/notifications/unread-count/route": "app/api/notifications/unread-count/route.js",
   "/(main)/users/[username]/page": "app/(main)/users/[username]/page.js",
-  "/(main)/page": "app/(main)/page.js",
-  "/(main)/settings/page": "app/(main)/settings/page.js"
+  "/(main)/settings/page": "app/(main)/settings/page.js",
+  "/(main)/page": "app/(main)/page.js"
 }
