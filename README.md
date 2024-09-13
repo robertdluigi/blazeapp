@@ -1,14 +1,16 @@
 # BlazeBet
 
-BlazeBet is a cutting-edge esports betting platform that combines the excitement of competitive gaming with the thrill of wagering. Our platform offers a unique, user-friendly experience for esports enthusiasts to engage with their favorite games and teams.
+BlazeBet is a cutting-edge social media platform designed specifically for gamers. It offers a unique space for players to connect, share experiences, and build their gaming reputation. Our platform combines social networking features with gamer-specific tools to create a vibrant community for gaming enthusiasts.
 
 ## Features
 
-- **Live Betting**: Place bets on ongoing matches in real-time.
-- **Multiple Esports**: Support for popular esports titles including League of Legends, DOTA 2, CS:GO, and more.
-- **User Profiles**: Customizable user profiles with gaming statistics and betting history.
-- **Secure Transactions**: State-of-the-art security measures to ensure safe and transparent betting.
-- **Community Features**: Forums and chat functionality for users to discuss matches and strategies.
+- **Gamer Profiles**: Customizable profiles showcasing gaming stats, achievements, and personal style.
+- **Reputation Cards**: Create and share unique cards that display your gaming reputation and skills.
+- **Social Networking**: Connect with other gamers, share updates, and join gaming communities.
+- **Game Integration**: Link your profiles from various gaming platforms (Steam, Riot Games, etc.).
+- **Review System**: Leave and receive reviews from premade teammates to build your reputation.
+- **Customization**: Personalize your profile with themes, banners, and avatars.
+- **Community Features**: Forums and chat functionality for discussing games and strategies.
 - **Responsive Design**: Seamless experience across desktop and mobile devices.
 
 ## Technology Stack
@@ -17,7 +19,7 @@ BlazeBet is a cutting-edge esports betting platform that combines the excitement
 - **Backend**: Node.js, Express
 - **Database**: PostgreSQL with Prisma ORM
 - **Authentication**: NextAuth.js
-- **Payments**: Stripe integration
+- **Payments**: Stripe integration (for premium features)
 - **Deployment**: Vercel
 
 ## Getting Started
@@ -72,3 +74,5 @@ Project Link: [https://github.com/robertdluigi/blazeapp](https://github.com/robe
 - [Prisma](https://www.prisma.io/)
 - [Stripe](https://stripe.com/)
 - [Vercel](https://vercel.com/)
+- [Steam API](https://developer.valvesoftware.com/wiki/Steam_Web_API)
+- [Riot Games API](https://developer.riotgames.com/)
