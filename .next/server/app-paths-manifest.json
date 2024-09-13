@@ -1,7 +1,11 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/users/[userId]/riot/account/route": "app/api/users/[userId]/riot/account/route.js",
-  "/api/notifications/unread-count/route": "app/api/notifications/unread-count/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/(main)/settings/page": "app/(main)/settings/page.js"
+  "/api/notifications/unread-count/route": "app/api/notifications/unread-count/route.js",
+  "/api/users/[userId]/sections/route": "app/api/users/[userId]/sections/route.js",
+  "/api/users/username/[username]/route": "app/api/users/username/[username]/route.js",
+  "/api/users/[userId]/posts/route": "app/api/users/[userId]/posts/route.js",
+  "/api/users/[userId]/riot/league/matches/route": "app/api/users/[userId]/riot/league/matches/route.js",
+  "/api/users/[userId]/riot/league/match/[matchId]/route": "app/api/users/[userId]/riot/league/match/[matchId]/route.js",
+  "/(main)/settings/page": "app/(main)/settings/page.js",
+  "/(main)/users/[username]/page": "app/(main)/users/[username]/page.js"
 }
