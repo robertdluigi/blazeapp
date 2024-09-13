@@ -1,6 +1,6 @@
-# BlazeBet
+# BlazeGG
 
-BlazeBet is a cutting-edge social media platform designed specifically for gamers. It offers a unique space for players to connect, share experiences, and build their gaming reputation. Our platform combines social networking features with gamer-specific tools to create a vibrant community for gaming enthusiasts.
+BlazeGG is a cutting-edge social media platform designed specifically for gamers. It offers a unique space for players to connect, share experiences, and build their gaming reputation. Our platform combines social networking features with gamer-specific tools to create a vibrant community for gaming enthusiasts.
 
 ## Features
 
@@ -16,9 +16,9 @@ BlazeBet is a cutting-edge social media platform designed specifically for gamer
 ## Technology Stack
 
 - **Frontend**: Next.js, React, TypeScript
-- **Backend**: Node.js, Express
+- **Backend**: Serverless Functions, API Routes
 - **Database**: PostgreSQL with Prisma ORM
-- **Authentication**: NextAuth.js
+- **Authentication**: Lucia-Auth
 - **Payments**: Stripe integration (for premium features)
 - **Deployment**: Vercel
 
@@ -71,6 +71,7 @@ Project Link: [https://github.com/robertdluigi/blazeapp](https://github.com/robe
 
 - [Next.js](https://nextjs.org/)
 - [React](https://reactjs.org/)
+- [Lucia-Auth](https://github.com/lucia-auth/lucia)
 - [Prisma](https://www.prisma.io/)
 - [Stripe](https://stripe.com/)
 - [Vercel](https://vercel.com/)
