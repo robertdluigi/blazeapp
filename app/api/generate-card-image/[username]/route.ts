@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
 import { createCanvas, loadImage, CanvasRenderingContext2D } from 'canvas';
-import 'canvas-webp';
 import fetch from 'node-fetch';
 import sharp from 'sharp';
 
