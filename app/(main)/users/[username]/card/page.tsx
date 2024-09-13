@@ -44,11 +44,13 @@ export async function generateMetadata({ params: { username } }: PageProps): Pro
   const cardImageUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/generate-card-image/${username}`;
 
   return {
-    title: `${user.displayName}'s Card`,
-    description: `Check out ${user.displayName}'s profile card on our platform!`,
+    title: `${user.displayName}'s Card | BlazeGG`,
+    description: `Check out ${user.displayName}'s profile card on BlazeGG!`,
     openGraph: {
-      title: `${user.displayName}'s Card`,
-      description: `Check out ${user.displayName}'s profile card on our platform!`,
+      title: `${user.displayName}'s Card | BlazeGG`,
+      description: `Check out ${user.displayName}'s profile card on BlazeGG!`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/users/${username}/card`,
+      siteName: 'BlazeGG',
       images: [
         {
           url: cardImageUrl,
@@ -57,13 +59,15 @@ export async function generateMetadata({ params: { username } }: PageProps): Pro
           alt: `${user.displayName}'s profile card`,
         },
       ],
+      locale: 'en_US',
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${user.displayName}'s Card`,
-      description: `Check out ${user.displayName}'s profile card on our platform!`,
+      title: `${user.displayName}'s Card | BlazeGG`,
+      description: `Check out ${user.displayName}'s profile card on BlazeGG!`,
       images: [cardImageUrl],
+      creator: '@BlazeGG',
     },
   };
 }

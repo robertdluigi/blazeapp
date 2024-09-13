@@ -1,4 +1,5 @@
 {
+  "/api/generate-card-image/[username]/route": "app/api/generate-card-image/[username]/route.js",
   "/(main)/users/[username]/page": "app/(main)/users/[username]/page.js",
   "/(main)/settings/page": "app/(main)/settings/page.js"
 }

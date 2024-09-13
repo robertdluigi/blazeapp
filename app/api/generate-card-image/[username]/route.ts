@@ -53,15 +53,15 @@ export async function GET(
   // Text
   ctx.fillStyle = 'white';
   ctx.textAlign = 'left';
-  ctx.font = 'bold 60px sans-serif';
+  ctx.font = '24px Arial, sans-serif';
   ctx.fillText(user.displayName || username, 500, 280);
   
-  ctx.font = '40px sans-serif';
+  ctx.font = '24px Arial, sans-serif';
   ctx.fillText(`@${username}`, 500, 340);
 
   // Reputation (demo number)
   const demoReputation = 1245; // You can adjust this demo number as needed
-  ctx.font = 'bold 50px sans-serif';
+  ctx.font = '24px Arial, sans-serif';
   ctx.fillText(`Reputation: ${demoReputation}`, 500, 420);
 
   const buffer = canvas.toBuffer('image/png');
