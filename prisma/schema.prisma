@@ -1,0 +1,263 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Subscriber {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id                    String         @id
+  username              String         @unique
+  displayName           String
+  email                 String?        @unique
+  passwordHash          String?
+  googleId              String?        @unique
+  steamId               String?        @unique
+  riotId                String?        @unique
+  riotAccessToken       String?
+  riotRefreshToken      String?
+  riotPUUID             String?
+  riotCPID              String?
+  avatarUrl             String?
+  bannerUrl             String?
+  bannerColor           String?
+  cardPrimaryColor      String?
+  cardSecondaryColor    String?
+  cardBackground        String?
+  cardFeaturedGames     String?
+  bio                   String?
+  sessions              Session[]
+  posts                 Post[]
+  following             Follow[]       @relation("Following")
+  followers             Follow[]       @relation("Followers")
+  likes                 Like[]
+  bookmarks             Bookmark[]
+  comments              Comment[]
+  receivedNotifications Notification[] @relation("Recipient")
+  issuedNotifications   Notification[] @relation("Issuer")
+  profileSections       ProfileSection[] // New relation to ProfileSection
+
+  subscription          Subscription?    // New relation to Subscription
+  plan                  PlanType         @default(FREE) // New field to track plan
+  reviewLimit           Int              @default(0) // Track daily review usage (free plan)
+
+  createdAt DateTime @default(now())
+
+  @@map("users")
+}
+
+model Subscription {
+  id             Int       @id @default(autoincrement())
+  userId         String    @unique
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId String  // Stripe Customer ID
+  stripeSubscriptionId String? // Stripe Subscription ID
+  plan           PlanType  @default(FREE)
+  createdAt      DateTime  @default(now())
+  expiresAt      DateTime?
+
+  @@map("subscriptions")
+}
+
+enum PlanType {
+  FREE
+  PRO
+  FOUNDER
+}
+
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Follow {
+  followerId String
+  follower User @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String
+  following User @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  recipientId String
+  recipient   User             @relation("Recipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  issuerId    String
+  issuer      User             @relation("Issuer", fields: [issuerId], references: [id], onDelete: Cascade)
+  postId      String?
+  post        Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  type        NotificationType
+  read        Boolean          @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
+}
+
+model Post {
+  id                  String         @id @default(cuid())
+  content             String
+  userId              String
+  user                User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attachments         Media[]
+  likes               Like[]
+  bookmarks           Bookmark[]
+  comments            Comment[]
+  linkedNotifications Notification[]
+
+  createdAt DateTime @default(now())
+
+  @@map("posts")
+}
+
+model Comment {
+  id      String @id @default(cuid())
+  content String
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId  String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("comments")
+}
+
+model Like {
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@map("likes")
+}
+
+model Media {
+  id     String    @id @default(cuid())
+  postId String?
+  post   Post?     @relation(fields: [postId], references: [id], onDelete: SetNull)
+  type   MediaType
+  url    String
+
+  createdAt DateTime @default(now())
+
+  @@map("post_media")
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+model Bookmark {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+  @@map("bookmarks")
+}
+
+model ProfileSection {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  type      SectionType
+  content   Json
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("profile_sections")
+}
+
+enum ReviewType {
+  TOXIC_TAG
+  CHILL_TAG
+  CARRY_TAG
+}
+
+enum SectionType {
+
+  // League of Legends Sections
+  USER_LEAGUE_FAV_CHAMPIONS        // Favorite League of Legends champions
+  USER_LEAGUE_FAV_CHAMPION         // Favorite single League of Legends champion
+  USER_LEAGUE_RANKS                // Display ranks across different seasons or modes
+  USER_LEAGUE_RANK                 // Display current rank
+  USER_LEAGUE_QUEUE_RANKS          // Display ranks per queue (Solo, Flex, etc.)
+  USER_LEAGUE_QUEUE_RANK           // Display rank for a specific queue
+
+  // Valorant Sections
+  USER_VALORANT_FAV_AGENTS         // Favorite Valorant agents
+  USER_VALORANT_FAV_AGENT          // Favorite single Valorant agent
+  USER_VALORANT_RANKS              // Display ranks across different seasons or modes
+  USER_VALORANT_RANK               // Display current rank
+
+  // Genshin Impact Sections
+  USER_GENSHIN_FAV_CHARACTERS      // Favorite Genshin Impact characters
+  USER_GENSHIN_FAV_CHARACTER       // Favorite single Genshin Impact character
+  USER_GENSHIN_OWNED_CHARACTERS    // Display owned Genshin Impact characters
+
+  // Steam Sections
+  USER_STEAM_FAV_GAMES             // Favorite Steam games
+  USER_STEAM_FAV_GAME              // Favorite single Steam game
+  USER_STEAM_OWNED_GAMES           // Display owned Steam games
+  USER_STEAM_ACHIEVEMENTS          // Display Steam achievements
+  USER_STEAM_FAV_ACHIEVEMENTS      // Favorite Steam achievements
+  USER_STEAM_INVENTORY             // Display Steam inventory
+
+  // Lost Ark Sections
+  USER_LOSTARK_CHARACTERS          // Display Lost Ark characters
+  USER_LOSTARK_FAV_CHAR            // Favorite single Lost Ark character
+
+  // Profile Activity Sections
+  USER_PROFILE_PLAYING_WITH_MOST   // Display users they play with the most
+  USER_PROFILE_PLAYING_WITH        // Display specific users they play with
+
+  // Profile Highlights and Media Sections
+  USER_PROFILE_HIGHLIGHTS          // Display profile highlights
+  USER_PROFILE_MEDIA               // Display media (images, videos)
+
+  // Profile Badges Sections
+  USER_PROFILE_FAV_BADGES          // Favorite badges earned
+  USER_PROFILE_BADGES              // Display all earned badges
+
+  // Socials and Stats Sections
+  USER_PROFILE_SOCIALS             // Display social media links
+  USER_PROFILE_STATS               // Display user stats across games or platforms
+
+  // Custom Section
+  CUSTOM                           // Custom section created by the user
+}
+
+
+enum NotificationType {
+  LIKE
+  FOLLOW
+  COMMENT
+  REVIEW
+}
