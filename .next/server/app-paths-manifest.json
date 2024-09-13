@@ -1,6 +1,5 @@
 {
-  "/api/notifications/unread-count/route": "app/api/notifications/unread-count/route.js",
-  "/api/users/[userId]/sections/route": "app/api/users/[userId]/sections/route.js",
+  "/api/generate-card-image/[username]/route": "app/api/generate-card-image/[username]/route.js",
   "/(main)/users/[username]/page": "app/(main)/users/[username]/page.js",
   "/(main)/settings/page": "app/(main)/settings/page.js"
 }

@@ -41,9 +41,30 @@ export async function generateMetadata({ params: { username } }: PageProps): Pro
   if (!loggedInUser) return {};
 
   const user = await getUser(username, loggedInUser.id);
+  const cardImageUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/generate-card-image/${username}`;
 
   return {
-    title: `${user.displayName} (@${user.username})`,
+    title: `${user.displayName}'s Card`,
+    description: `Check out ${user.displayName}'s profile card on our platform!`,
+    openGraph: {
+      title: `${user.displayName}'s Card`,
+      description: `Check out ${user.displayName}'s profile card on our platform!`,
+      images: [
+        {
+          url: cardImageUrl,
+          width: 1200,
+          height: 630,
+          alt: `${user.displayName}'s profile card`,
+        },
+      ],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${user.displayName}'s Card`,
+      description: `Check out ${user.displayName}'s profile card on our platform!`,
+      images: [cardImageUrl],
+    },
   };
 }
 
