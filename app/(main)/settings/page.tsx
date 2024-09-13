@@ -1,11 +1,18 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { validateRequest } from '@/auth'; // Ensure this function is correctly imported
+import { validateRequest } from '@/auth';
 import { authorizeUrl, clientID, appCallbackUrl } from '@/lib/riot';
+import UserRiotData from "./UserRiotData";
+
+import AccountSettings from "./AccountSettings";
+import ProfileSettings from "./ProfileSettings";
 
 async function fetchSteamData(steamID: string) {
     try {
-        const fields = 'personaname,avatar'; // Specify fields you want to retrieve
+        const fields = 'personaname,avatar';
         const response = await fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAM_CLIENT_ID}&steamids=${steamID}`);
         const data = await response.json();
 
@@ -40,45 +47,107 @@ export default async function Settings() {
     }
 
     return (
-        <main className="flex w-full min-w-0 gap-5">
-            <div className="w-full min-w-0 space-y-5">
-                <Tabs defaultValue="account" className="">
-                    <TabsList className="rounded-2xl">
-                        <TabsTrigger value="account">Account</TabsTrigger>
-                        <TabsTrigger value="profile">Profile</TabsTrigger>
-                        <TabsTrigger value="connections">Connections</TabsTrigger>
-                        <TabsTrigger value="privacy">Privacy</TabsTrigger>
-                    </TabsList>
-                    <TabsContent className="py-5" value="account">
+        <main className="container mx-auto py-10">
+            <Tabs defaultValue="account" className="space-y-6">
+                <TabsList className="grid w-full grid-cols-4">
+                    <TabsTrigger value="account">Account</TabsTrigger>
+                    <TabsTrigger value="profile">Profile</TabsTrigger>
+                    <TabsTrigger value="connections">Connections</TabsTrigger>
+                    <TabsTrigger value="privacy">Privacy</TabsTrigger>
+                </TabsList>
 
-                    </TabsContent>
-                    <TabsContent className="py-5" value="profile">
-                        Profile
-                    </TabsContent>
-                    <TabsContent className="py-5" value="connections">
-                    {steamID ? (
-                            <div>
-                                <p>Steam ID: {steamID}</p>
-                                {steamData ? (
-                                    <div>
-                                        <p>Steam Name: {steamData.personaname}</p>
-                                        {steamData.avatar && <img src={steamData.avatar} alt="Steam Avatar" />}
+                <TabsContent value="account">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Account Settings</CardTitle>
+                            <CardDescription>Manage your account details and preferences.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <AccountSettings />
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                <TabsContent value="profile">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Profile Settings</CardTitle>
+                            <CardDescription>Customize your public profile.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <ProfileSettings />
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                <TabsContent value="connections">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Connected Accounts</CardTitle>
+                            <CardDescription>Manage your connected gaming accounts.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            {/* Steam Connection */}
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h3 className="text-lg font-semibold">Steam</h3>
+                                    {steamID ? (
+                                        <p className="text-sm text-gray-500">{steamData?.personaname || steamID}</p>
+                                    ) : (
+                                        <p className="text-sm text-gray-500">Not connected</p>
+                                    )}
+                                </div>
+                                {steamID ? (
+                                    <div className="flex items-center space-x-2">
+                                        {steamData?.avatar && (
+                                            <Avatar>
+                                                <AvatarImage src={steamData.avatar} alt="Steam Avatar" />
+                                                <AvatarFallback>ST</AvatarFallback>
+                                            </Avatar>
+                                        )}
+                                        <Button variant="outline">Disconnect</Button>
                                     </div>
                                 ) : (
-                                    <p>Steam data not available.</p>
+                                    <Link href="/api/auth/steam/link">
+                                        <Button>Connect Steam</Button>
+                                    </Link>
                                 )}
                             </div>
-                        ) : (
-                            <Link href="/api/auth/steam/link">Link Steam Account</Link>
-                        )}
 
-                    <Link href={link}>Sign in with Riot</Link>
-                    </TabsContent>
-                    <TabsContent className="py-5" value="privacy">
-                        Privacy
-                    </TabsContent>
-                </Tabs>
-            </div>
+                            {/* Riot Games Connection */}
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h3 className="text-lg font-semibold">Riot Games</h3>
+                                    {user.riotAccessToken ? (
+                                        <UserRiotData userId={user.id} />
+                                    ) : (
+                                        <p className="text-sm text-gray-500">Not connected</p>
+                                    )}
+                                </div>
+                                {user.riotAccessToken ? (
+                                    <Button variant="outline">Disconnect</Button>
+                                ) : (
+                                    <Link href={link}>
+                                        <Button>Connect Riot</Button>
+                                    </Link>
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
+                <TabsContent value="privacy">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Privacy Settings</CardTitle>
+                            <CardDescription>Manage your privacy preferences.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            {/* Add privacy settings content here */}
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </main>
     );
 }
