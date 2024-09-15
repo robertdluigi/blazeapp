@@ -27,7 +27,7 @@ const benefits = [
 
 export const WhyUs = () => {
   return (
-    <section className="py-24">
+    <section className="py-24" id="features">
       <div className="container">
         <div className="section-heading text-center">
           <h2 className="section-title">Why Choose Us</h2>

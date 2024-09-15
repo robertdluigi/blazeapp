@@ -4,6 +4,7 @@ import SessionProvider from "./SessionProvider";
 import { NavBar } from "./NavBar";
 import Menubar from "./MenuBar";
 import Homepage from "./homepage";
+import AdSidebar from "@/components/AdSidebar";
 
 export default async function Layout({
     children,
@@ -26,6 +27,7 @@ export default async function Layout({
           <Menubar className="sticky top-[5.25rem] h-fit hidden sm:block flex-none space-y-3 rounded-2xl bg-card px-3 py-5 lg:px-5 shadow-sm xl:w-80"/>
               {children}
         </div>
+        <AdSidebar />
         <Menubar className="sticky bottom-0 flex w-full justify-center gap-5 border-t bg-card p-3 sm:hidden" />
       </div>
         

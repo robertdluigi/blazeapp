@@ -9,8 +9,7 @@ export default function Homepage() {
 
   return (
         <div className="bg-white dark:bg-white">
-          <Header />
-          
+          <Header /> 
           <Hero />
           <WhyUs />
           <Pricing />
