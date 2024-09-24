@@ -1,9 +1,10 @@
 {
   "pages": {
-    "/(main)/settings/page": [
+    "/(main)/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(main)/settings/page.js"
+      "static/css/app/(main)/page.css",
+      "static/chunks/app/(main)/page.js"
     ],
     "/(main)/layout": [
       "static/chunks/webpack.js",

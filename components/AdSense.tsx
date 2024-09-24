@@ -11,7 +11,7 @@ const AdSense = () => {
   useEffect(() => {
     const loadAdSenseScript = () => {
       const script = document.createElement('script');
-      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6623976898591052`;
+      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4035759080706955`;
       script.async = true;
       script.crossOrigin = 'anonymous';
       document.body.appendChild(script);
@@ -40,8 +40,8 @@ const AdSense = () => {
     <ins
       className="adsbygoogle"
       style={{ display: 'block', width: '300px', height: '600px' }}
-      data-ad-client="ca-pub-6623976898591052"
-      data-ad-slot="9013089895"
+      data-ad-client="ca-pub-4035759080706955"
+      data-ad-slot="4233747377"
       data-ad-format="auto"
       data-full-width-responsive="true"
     />
