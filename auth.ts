@@ -25,6 +25,10 @@ export const lucia = new Lucia(adapter, {
             riotAccessToken: databaseUserAttributes.riotAccessToken,
             steamId:  databaseUserAttributes.steamId,
             stripeCustomerId: databaseUserAttributes.stripeCustomerId,
+            genshinUid: databaseUserAttributes.genshinUid,
+            honkaiId: databaseUserAttributes.honkaiId,
+            plan: databaseUserAttributes.plan,
+            reviewLimit: databaseUserAttributes.reviewLimit,
         };
     }
 })
@@ -47,6 +51,10 @@ interface DatabaseUserAttributes {
     riotAccessToken: string|null,
     steamId:  string|null,
     stripeCustomerId: string|null,
+    genshinUid: string|null,
+    honkaiId: string|null,
+    plan: string|null,
+    reviewLimit: number|null,
 }
 
 export const validateRequest = cache(

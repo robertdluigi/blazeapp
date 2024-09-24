@@ -22,6 +22,7 @@ model User {
   displayName           String
   email                 String?        @unique
   passwordHash          String?
+
   googleId              String?        @unique
   steamId               String?        @unique
   riotId                String?        @unique
@@ -29,6 +30,12 @@ model User {
   riotRefreshToken      String?
   riotPUUID             String?
   riotCPID              String?
+  genshinUid            String?        // New field for Genshin Impact UID
+  honkaiId              String?        // New field for Honkai Impact ID
+  hoyolabLtokenV2       String?        // New field for HoYoLAB ltokenV2
+  hoyolabLtuidV2        String?        // New field for HoYoLAB ltuidV2
+  hoyolabConnected      Boolean        @default(false)
+
   avatarUrl             String?
   bannerUrl             String?
   bannerColor           String?

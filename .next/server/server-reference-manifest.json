@@ -1,74 +1,72 @@
 {
   "node": {
-    "4988c66be62c9ed7691ff7fd21d29ed6a78ccb7e": {
+    "ddf9208961d0c2e9b523b327df850489fd2ce74b": {
       "workers": {
-        "app/(main)/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Ceditor%5C%5Cactions.ts%22%2C%5B%22submitPost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!",
+        "app/(main)/settings/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Csettings%5C%5Choyoverse%5C%5Cactions.ts%22%2C%5B%22addHonkaiUID%22%2C%22removeHonkaiUID%22%2C%22addHoyolabTokens%22%2C%22addGenshinUID%22%2C%22removeGenshinUID%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!",
         "app/(main)/users/[username]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Cactions.ts%22%2C%5B%22updateUserProfile%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Csections%5C%5Cactions.ts%22%2C%5B%22createSection%22%2C%22updateSectionOrder%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/(main)/page": "action-browser",
+        "app/(main)/settings/page": "action-browser",
+        "app/(main)/users/[username]/page": "action-browser"
+      }
+    },
+    "0836ed8d08855bb232e784011e31a2e96940a400": {
+      "workers": {
+        "app/(main)/settings/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Csettings%5C%5Choyoverse%5C%5Cactions.ts%22%2C%5B%22addHonkaiUID%22%2C%22removeHonkaiUID%22%2C%22addHoyolabTokens%22%2C%22addGenshinUID%22%2C%22removeGenshinUID%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(main)/settings/page": "action-browser"
+      }
+    },
+    "51bf913fcd32b4e632dc906531bb6d6ae3f2e386": {
+      "workers": {
+        "app/(main)/settings/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Csettings%5C%5Choyoverse%5C%5Cactions.ts%22%2C%5B%22addHonkaiUID%22%2C%22removeHonkaiUID%22%2C%22addHoyolabTokens%22%2C%22addGenshinUID%22%2C%22removeGenshinUID%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(main)/settings/page": "action-browser"
+      }
+    },
+    "ca75726622f7cf0679b44fd40a6066aacecb6a4a": {
+      "workers": {
+        "app/(main)/settings/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Csettings%5C%5Choyoverse%5C%5Cactions.ts%22%2C%5B%22addHonkaiUID%22%2C%22removeHonkaiUID%22%2C%22addHoyolabTokens%22%2C%22addGenshinUID%22%2C%22removeGenshinUID%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(main)/settings/page": "action-browser"
+      }
+    },
+    "e16d62712f98f4c5306d4c0657ce0463877171a8": {
+      "workers": {
+        "app/(main)/settings/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Csettings%5C%5Choyoverse%5C%5Cactions.ts%22%2C%5B%22addHonkaiUID%22%2C%22removeHonkaiUID%22%2C%22addHoyolabTokens%22%2C%22addGenshinUID%22%2C%22removeGenshinUID%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(main)/settings/page": "action-browser"
+      }
+    },
+    "68109db1211051cbcc02b0edfa58c5e36439cdf6": {
+      "workers": {
+        "app/(main)/users/[username]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Cactions.ts%22%2C%5B%22updateUserProfile%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Csections%5C%5Cactions.ts%22%2C%5B%22createSection%22%2C%22updateSectionOrder%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(main)/users/[username]/page": "action-browser"
+      }
+    },
+    "4988c66be62c9ed7691ff7fd21d29ed6a78ccb7e": {
+      "workers": {
+        "app/(main)/users/[username]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Cactions.ts%22%2C%5B%22updateUserProfile%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Csections%5C%5Cactions.ts%22%2C%5B%22createSection%22%2C%22updateSectionOrder%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
         "app/(main)/users/[username]/page": "action-browser"
       }
     },
     "52d4426f05e9c16ea2adcb0c3cb36cd5e1d3bd1f": {
       "workers": {
-        "app/(main)/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Ceditor%5C%5Cactions.ts%22%2C%5B%22submitPost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!",
         "app/(main)/users/[username]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Cactions.ts%22%2C%5B%22updateUserProfile%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Csections%5C%5Cactions.ts%22%2C%5B%22createSection%22%2C%22updateSectionOrder%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/(main)/page": "action-browser",
         "app/(main)/users/[username]/page": "action-browser"
       }
     },
     "c7768d1e09f2ea4ccbf38df4ca0d2a39db6172fa": {
-      "workers": {
-        "app/(main)/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Ceditor%5C%5Cactions.ts%22%2C%5B%22submitPost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!",
-        "app/(main)/users/[username]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Cactions.ts%22%2C%5B%22updateUserProfile%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Csections%5C%5Cactions.ts%22%2C%5B%22createSection%22%2C%22updateSectionOrder%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/(main)/page": "action-browser",
-        "app/(main)/users/[username]/page": "action-browser"
-      }
-    },
-    "94fadebea3ee7e18f43bc6e7fe3fb35110e2396a": {
-      "workers": {
-        "app/(main)/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Ceditor%5C%5Cactions.ts%22%2C%5B%22submitPost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/(main)/page": "action-browser"
-      }
-    },
-    "ddf9208961d0c2e9b523b327df850489fd2ce74b": {
-      "workers": {
-        "app/(main)/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Ceditor%5C%5Cactions.ts%22%2C%5B%22submitPost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!",
-        "app/(main)/settings/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!",
-        "app/(main)/users/[username]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Cactions.ts%22%2C%5B%22updateUserProfile%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Csections%5C%5Cactions.ts%22%2C%5B%22createSection%22%2C%22updateSectionOrder%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!",
-        "app/(main)/notifications/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/(main)/page": "action-browser",
-        "app/(main)/settings/page": "action-browser",
-        "app/(main)/users/[username]/page": "action-browser",
-        "app/(main)/notifications/page": "action-browser"
-      }
-    },
-    "e928b5bfe66dd5dc20a5cd2bd04379c590d3934c": {
-      "workers": {
-        "app/(auth)/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Clogin%5C%5Cactions.ts%22%2C%5B%22login%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/(auth)/login/page": "action-browser"
-      }
-    },
-    "56ff876ac8662cb47e4ccf3d87069c8a5161f52b": {
-      "workers": {
-        "app/(auth)/signup/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Csignup%5C%5Cactions.ts%22%2C%5B%22signUp%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/(auth)/signup/page": "action-browser"
-      }
-    },
-    "68109db1211051cbcc02b0edfa58c5e36439cdf6": {
       "workers": {
         "app/(main)/users/[username]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Cactions.ts%22%2C%5B%22updateUserProfile%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Cposts%5C%5Cactions.ts%22%2C%5B%22deletePost%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Ccomponents%5C%5Ccomments%5C%5Cactions.ts%22%2C%5B%22deleteComment%22%2C%22submitComment%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Cusers%5C%5C%5Busername%5D%5C%5Csections%5C%5Cactions.ts%22%2C%5B%22createSection%22%2C%22updateSectionOrder%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
       },
@@ -91,8 +89,16 @@
       "layer": {
         "app/(main)/users/[username]/page": "action-browser"
       }
+    },
+    "6936dcf820193895a58ec8c5923d0bf01dd4c698": {
+      "workers": {
+        "app/(main)/settings/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Csettings%5C%5Choyoverse%5C%5Cactions.ts%22%2C%5B%22addHonkaiUID%22%2C%22removeHonkaiUID%22%2C%22addHoyolabTokens%22%2C%22addGenshinUID%22%2C%22removeGenshinUID%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(main)/settings/page": "action-browser"
+      }
     }
   },
   "edge": {},
-  "encryptionKey": "YfbQ4HxghwqakaP8tI5jGK4Zcy5Oxa8ATyonLF6SEG0="
+  "encryptionKey": "XTn8hUM281OZzagzbfjNpJ8PxHavlCMkE/lvjwrYnho="
 }

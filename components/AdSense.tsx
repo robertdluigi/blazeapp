@@ -11,7 +11,7 @@ const AdSense = () => {
   useEffect(() => {
     const loadAdSenseScript = () => {
       const script = document.createElement('script');
-      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_PUBLISHER_ID`;
+      script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6623976898591052`;
       script.async = true;
       script.crossOrigin = 'anonymous';
       document.body.appendChild(script);

@@ -15,6 +15,9 @@ export function getUserDataSelect(loggedInUserId: string) {
     cardBackground: true,
     riotPUUID: true,
     riotCPID: true, // Add this property
+    steamId: true,
+    genshinUid: true,
+    honkaiId: true,
     followers: {
       where: {
         followerId: loggedInUserId,

@@ -17,6 +17,7 @@ import { $Enums } from '@prisma/client';
 import ky from '@/lib/ky';
 import { updateSectionOrder } from './sections/actions';
 import { toast } from '@/components/ui/use-toast';
+import { UserData } from '@/lib/types';
 
 type ProfileSection = {
   id: string;
@@ -39,13 +40,15 @@ const mapSectionType = (prismaSectionType: $Enums.SectionType): SectionType => {
   switch (prismaSectionType) {
     case $Enums.SectionType.USER_LEAGUE_FAV_CHAMPIONS:
       return SectionType.USER_LEAGUE_FAV_CHAMPIONS;
+    case $Enums.SectionType.USER_GENSHIN_FAV_CHARACTER:
+      return SectionType.USER_GENSHIN_FAV_CHARACTER;
     // Add other mappings as needed
     default:
       throw new Error('Unknown section type');
   }
 };
 
-const SortableSection = ({ section, isEditMode }: { section: ProfileSection; isEditMode: boolean }) => {
+const SortableSection = ({ user, section, isEditMode }: { user: UserData; section: ProfileSection; isEditMode: boolean }) => {
   const {
     attributes,
     listeners,
@@ -78,6 +81,7 @@ const SortableSection = ({ section, isEditMode }: { section: ProfileSection; isE
         </div>
       )}
       <UserProfileSection
+        user={user}
         type={mapSectionType(section.type)}
         data={{
           title: section.title,
@@ -88,7 +92,7 @@ const SortableSection = ({ section, isEditMode }: { section: ProfileSection; isE
   );
 };
 
-const UserProfileSections: React.FC<{ userId: string; isOwner: boolean }> = ({ userId, isOwner }) => {
+const UserProfileSections: React.FC<{ user: UserData; userId: string; isOwner: boolean }> = ({ user, userId, isOwner }) => {
   const queryClient = useQueryClient();
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSectionAddDialogOpen, setIsSectionAddDialogOpen] = useState(false);
@@ -194,7 +198,7 @@ const UserProfileSections: React.FC<{ userId: string; isOwner: boolean }> = ({ u
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {sections.map((section) => (
-                <SortableSection key={section.id} section={section} isEditMode={isEditMode} />
+                <SortableSection key={section.id} user={user} section={section} isEditMode={isEditMode} />
               ))}
             </div>
           </SortableContext>
@@ -203,6 +207,7 @@ const UserProfileSections: React.FC<{ userId: string; isOwner: boolean }> = ({ u
               <SortableSection 
                 section={sections.find(s => s.id === activeId)!} 
                 isEditMode={isEditMode} 
+                user={user}
               />
             ) : null}
           </DragOverlay>
