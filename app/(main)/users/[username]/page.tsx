@@ -77,7 +77,7 @@ export default async function Page({ params: { username } }: PageProps) {
             </TabsList>
           </div>
           <TabsContent className="py-5" value="profile">
-          <UserProfileSections userId={user.id} isOwner={loggedInUser.id === user.id} />
+          <UserProfileSections user={user} userId={user.id} isOwner={loggedInUser.id === user.id} />
           </TabsContent>
           <TabsContent className="py-5" value="posts">
             <UserPosts userId={user.id} />
