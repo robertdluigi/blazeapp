@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, rectSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripHorizontal, Plus } from 'lucide-react';
@@ -18,6 +19,7 @@ import ky from '@/lib/ky';
 import { updateSectionOrder } from './sections/actions';
 import { toast } from '@/components/ui/use-toast';
 import { UserData } from '@/lib/types';
+import { Trash2 } from 'lucide-react';
 
 type ProfileSection = {
   id: string;
@@ -42,6 +44,8 @@ const mapSectionType = (prismaSectionType: $Enums.SectionType): SectionType => {
       return SectionType.USER_LEAGUE_FAV_CHAMPIONS;
     case $Enums.SectionType.USER_GENSHIN_FAV_CHARACTER:
       return SectionType.USER_GENSHIN_FAV_CHARACTER;
+    case $Enums.SectionType.USER_STEAM_FAV_GAMES:
+      return SectionType.USER_STEAM_FAV_GAMES;
     // Add other mappings as needed
     default:
       throw new Error('Unknown section type');
@@ -56,12 +60,17 @@ const SortableSection = ({ user, section, isEditMode }: { user: UserData; sectio
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: section.id });
+  } = useSortable({ id: section.id })
+
+  const queryClient = useQueryClient();
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
 
   return (
     <div

@@ -36,6 +36,11 @@ const nextConfig = {
       remotePatterns: [
         {
           protocol: "https",
+          hostname: "ddragon.leagueoflegends.com",
+          pathname: "/cdn/img/champion/splash/**", // Allow images from the specified path
+        },
+        {
+          protocol: "https",
           hostname: "utfs.io",
           pathname: `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/*`,
         },

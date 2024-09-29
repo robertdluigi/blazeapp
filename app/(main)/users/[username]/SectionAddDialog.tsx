@@ -1,170 +1,224 @@
-import React from 'react';
-import { Textarea } from '@/components/ui/textarea';
+import React, { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 import { useCreateSection } from './sections/mutations';
 import { ProfileSection } from '@/lib/types';
 import { SectionType } from '@/lib/sections';
 import { useToast } from '@/components/ui/use-toast';
-import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogTitle } from '@/components/ui/dialog';
+import championData from '@/lib/riot/champion-summary.json'; 
+import axios from 'axios'; 
 
-// Demo data for Genshin characters
-const demoGenshinCharacters = [
-    { id: '1', name: 'Diluc', element: 'Pyro' },
-    { id: '2', name: 'Keqing', element: 'Electro' },
-    { id: '3', name: 'Venti', element: 'Anemo' },
-    // Add more characters as needed
-  ];
-  
-  // Demo data for League champions
-  const demoLeagueChampions = [
-    { id: '1', name: 'Ahri', role: 'Mid' },
-    { id: '2', name: 'Darius', role: 'Top' },
-    { id: '3', name: 'Thresh', role: 'Support' },
-    // Add more champions as needed
-  ];
+const sectionTypes = [
+  { type: SectionType.USER_LEAGUE_FAV_CHAMPIONS, label: 'Favorite League Champion' },
+  { type: SectionType.USER_STEAM_FAV_GAMES, label: 'Favorite Game' },
+  { type: SectionType.USER_LEAGUE_RANK, label: 'League Rank' },
+];
 
 interface SectionAddDialogProps {
-    userId: string;
-    onAddSection: (section: ProfileSection) => void;
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    currentSectionsCount: number;
+  userId: string;
+  onAddSection: (section: ProfileSection) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  currentSectionsCount: number;
 }
 
-const SectionAddDialog: React.FC<SectionAddDialogProps> = ({ 
-    userId, 
-    onAddSection, 
-    open, 
-    onOpenChange,
-    currentSectionsCount
+const SectionAddDialog: React.FC<SectionAddDialogProps> = ({
+  userId,
+  onAddSection,
+  open,
+  onOpenChange,
+  currentSectionsCount,
 }) => {
-    const [title, setTitle] = React.useState('');
-    const [content, setContent] = React.useState('');
-    const [type, setType] = React.useState<SectionType>(SectionType.USER_LEAGUE_FAV_CHAMPIONS);
-    const [selectedCharacter, setSelectedCharacter] = React.useState('');
-    const [selectedChampion, setSelectedChampion] = React.useState('');
-    const { mutate: createSection, isPending } = useCreateSection();
-    const { toast } = useToast();
+  const [championName, setChampionName] = useState('');
+  const [steamGameName, setSteamGameName] = useState('');
+  const [steamGames, setSteamGames] = useState<any[]>([]);
+  const [selectedSteamGames, setSelectedSteamGames] = useState<number[]>([]);
+  const [leagueRank, setLeagueRank] = useState('');
+  const [sectionType, setSectionType] = useState(sectionTypes[0].type);
+  const { mutate: createSection, isPending } = useCreateSection();
+  const { toast } = useToast();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const newOrder = currentSectionsCount + 1;
-        let sectionContent = content;
+  const fetchSteamGames = async () => {
+    try {
+      const response = await axios.get(`/api/users/${userId}/games/steam`);
+      setSteamGames(response.data.games);
+    } catch (error) {
+      console.error('Error fetching Steam games:', error);
+      toast({ variant: 'destructive', title: 'Error', description: 'Failed to fetch Steam games.' });
+    }
+  };
 
-        if (type === SectionType.USER_GENSHIN_FAV_CHARACTERS) {
-            sectionContent = selectedCharacter;
-        } else if (type === SectionType.USER_LEAGUE_FAV_CHAMPIONS) {
-            sectionContent = selectedChampion;
-        }
+  useEffect(() => {
+    if (open && sectionType === SectionType.USER_STEAM_FAV_GAMES) {
+      fetchSteamGames();
+    }
+  }, [open, sectionType]);
 
-        createSection(
-            { title, content: sectionContent, type, order: newOrder, userId },
-            {
-                onSuccess: (newSection) => {
-                    onAddSection(newSection);
-                    resetForm();
-                    onOpenChange(false);
-                    toast({ title: 'Success', description: 'Section added successfully' });
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: `Failed to create section: ${error.message}`,
-                    });
-                },
-            }
-        );
-    };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const newOrder = currentSectionsCount + 1;
 
-    const resetForm = () => {
-        setTitle('');
-        setContent('');
-        setType(SectionType.USER_LEAGUE_FAV_CHAMPIONS);
-        setSelectedCharacter('');
-        setSelectedChampion('');
-    };
+    let sectionContent = {};
+    let title = '';
 
-    const renderContentInput = () => {
-        switch (type) {
-            case SectionType.CUSTOM:
-                return (
-                    <Input
-                        placeholder="Enter text content"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        required
-                    />
-                );
-            case SectionType.USER_GENSHIN_FAV_CHARACTERS:
-                return (
-                    <Select value={selectedCharacter} onValueChange={setSelectedCharacter}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select Genshin Character" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {demoGenshinCharacters.map((char) => (
-                                <SelectItem key={char.id} value={char.id}>
-                                    {char.name} ({char.element})
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                );
-            case SectionType.USER_LEAGUE_FAV_CHAMPIONS:
-                return (
-                    <Select value={selectedChampion} onValueChange={setSelectedChampion}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select League Champion" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {demoLeagueChampions.map((champ) => (
-                                <SelectItem key={champ.id} value={champ.id}>
-                                    {champ.name} ({champ.role})
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                );
-            default:
-                return null;
-        }
-    };
+    if (sectionType === SectionType.USER_LEAGUE_FAV_CHAMPIONS) {
+      const selectedChampionData = championData.find(
+        (champ) => champ.name.toLowerCase() === championName.toLowerCase()
+      );
 
-    return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
-                <DialogTitle>Add New Section</DialogTitle>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <Input
-                        placeholder="Section Title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                    <Select value={type} onValueChange={(value) => setType(value as SectionType)}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select Section Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value={SectionType.CUSTOM}>Text</SelectItem>
-                            <SelectItem value={SectionType.USER_GENSHIN_FAV_CHARACTER}>Favorite Genshin Character</SelectItem>
-                            <SelectItem value={SectionType.USER_LEAGUE_FAV_CHAMPIONS}>Favorite League Champion</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    {renderContentInput()}
-                    <DialogFooter>
-                        <Button type="button" onClick={resetForm} variant="secondary">Cancel</Button>
-                        <Button type="submit" disabled={isPending}>
-                            {isPending ? 'Adding...' : 'Add Section'}
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </DialogContent>
-        </Dialog>
+      if (!selectedChampionData) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Champion not found.' });
+        return;
+      }
+
+      sectionContent = {
+        champions: [{ name: selectedChampionData.name, championId: selectedChampionData.id }],
+      };
+      title = `Favorite League Champion: ${selectedChampionData.name}`;
+    } else if (sectionType === SectionType.USER_STEAM_FAV_GAMES) {
+      if (selectedSteamGames.length === 0) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Please select at least one Steam game.' });
+        return;
+      }
+      sectionContent = { steamGames: selectedSteamGames };
+      title = `Favorite Games`;
+    } else if (sectionType === SectionType.USER_LEAGUE_RANK) {
+      sectionContent = { rank: leagueRank };
+      title = `League Rank: ${leagueRank}`;
+    }
+
+    createSection(
+      { title, content: sectionContent, type: sectionType, order: newOrder, userId },
+      {
+        onSuccess: (newSection) => {
+          onAddSection(newSection);
+          resetForm();
+          onOpenChange(false);
+          toast({ title: 'Success', description: `${sectionTypes.find(t => t.type === sectionType)?.label} section added successfully` });
+        },
+        onError: (error) => {
+          toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: `Failed to create section: ${error.message}`,
+          });
+        },
+      }
     );
+  };
+
+  const resetForm = () => {
+    setChampionName('');
+    setSteamGameName('');
+    setSelectedSteamGames([]);
+    setLeagueRank('');
+    setSectionType(sectionTypes[0].type);
+  };
+
+  const renderSectionSpecificFields = () => {
+    if (sectionType === SectionType.USER_LEAGUE_FAV_CHAMPIONS) {
+      return (
+        <Input
+          placeholder="Type Champion Name"
+          value={championName}
+          onChange={(e) => setChampionName(e.target.value)}
+        />
+      );
+    } else if (sectionType === SectionType.USER_STEAM_FAV_GAMES) {
+      return (
+        <div className="relative">
+          <Input
+            placeholder="Search Favorite Steam Game"
+            value={steamGameName}
+            onChange={(e) => setSteamGameName(e.target.value)}
+          />
+          {/* Only show the game list if the user types something */}
+          {steamGameName && (
+            <ul className="absolute z-10 max-h-60 overflow-y-auto border border-gray-300 mt-1 bg-black w-full">
+              {steamGames
+                .filter(game => game.name.toLowerCase().includes(steamGameName.toLowerCase()))
+                .map(game => (
+                  <li
+                    key={game.appid}
+                    className="p-2 cursor-pointer hover:bg-gray-200 hover:bg-opacity-30"
+                    onClick={() => {
+                      if (!selectedSteamGames.includes(game.appid)) {
+                        setSelectedSteamGames((prev) => [...prev, game.appid]);
+                        setSteamGameName(''); // Clear input after selection
+                      }
+                    }}
+                  >
+                    {game.name}
+                  </li>
+                ))}
+            </ul>
+          )}
+          <div className="mt-2 flex flex-wrap">
+            {selectedSteamGames.map(appId => {
+              const game = steamGames.find(g => g.appid === appId);
+              return (
+                <span key={appId} className="inline-flex items-center bg-gray-500 text-white text-sm font-medium mr-2 mb-2 px-2.5 py-2 rounded-full">
+                  {game?.name}
+                  <button 
+                    className="ml-2 text-gray-300 hover:text-orange-500"
+                    onClick={() => setSelectedSteamGames(prev => prev.filter(id => id !== appId))}
+                  >
+                    &times; {/* X symbol for removal */}
+                  </button>
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      );
+    } else if (sectionType === SectionType.USER_LEAGUE_RANK) {
+      return (
+        <Input
+          placeholder="League Rank (e.g., Gold IV)"
+          value={leagueRank}
+          onChange={(e) => setLeagueRank(e.target.value)}
+        />
+      );
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogTitle>Add New Section</DialogTitle>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <select
+            value={sectionType}
+            onChange={(e) => setSectionType(e.target.value as SectionType)}
+            className="w-full p-2 border rounded"
+          >
+            {sectionTypes.map((section) => (
+              <option key={section.type} value={section.type}>
+                {section.label}
+              </option>
+            ))}
+          </select>
+          {renderSectionSpecificFields()}
+          <DialogFooter>
+            <Button
+              type="button"
+              onClick={() => {
+                resetForm();
+                onOpenChange(false);
+              }}
+              variant="secondary"
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? 'Adding...' : 'Add Section'}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
 };
 
 export default SectionAddDialog;

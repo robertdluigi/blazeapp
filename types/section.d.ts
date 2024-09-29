@@ -7,18 +7,24 @@
 // Base interface for all section types
 export interface BaseSectionProps {
   title: string;
-  content?: string;
+  content?: string; // Can still be optional for general sections
+}
+
+// Define Champion object
+export interface Champion {
+  name: string;
+  championId: string; // Adjust this if championId is a number
 }
 
 // Props for sections with champions
 export interface ChampionsSectionProps extends BaseSectionProps {
-  champions: string[];
+  champions: Champion[]; // Change to an array of Champion objects
   content?: never; // Ensure content is not present
 }
 
 // Props for sections with content
 export interface ContentSectionProps extends BaseSectionProps {
-  content: string[];
+  content: string[]; // Assuming this is still correct
   champions?: never; // Ensure champions is not present
 }
 

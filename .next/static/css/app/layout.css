@@ -822,6 +822,9 @@ video {
 .ml-1 {
   margin-left: 0.25rem;
 }
+.ml-2 {
+  margin-left: 0.5rem;
+}
 .ml-auto {
   margin-left: auto;
 }
@@ -967,6 +970,9 @@ video {
 .h-4 {
   height: 1rem;
 }
+.h-48 {
+  height: 12rem;
+}
 .h-5 {
   height: 1.25rem;
 }
@@ -1008,6 +1014,9 @@ video {
 }
 .max-h-32 {
   max-height: 8rem;
+}
+.max-h-60 {
+  max-height: 15rem;
 }
 .max-h-96 {
   max-height: 24rem;
@@ -1471,6 +1480,10 @@ video {
 .bg-destructive {
   background-color: hsl(var(--destructive));
 }
+.bg-gray-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+}
 .bg-gray-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
@@ -1521,6 +1534,9 @@ video {
 }
 .bg-opacity-30 {
   --tw-bg-opacity: 0.3;
+}
+.bg-opacity-50 {
+  --tw-bg-opacity: 0.5;
 }
 .bg-\[linear-gradient\(to_right\2c \#DD7DD7\2c \#E1CD86\2c \#BBCB92\2c \#71C2Ef\2c \#3BFFFF\2c \#DD7DDF\2c \#DD7DD7\2c \#E1CD86\2c \#BBCB92\2c \#71C2Ef\2c \#3BFFFF\2c \#DD7DDF\)\] {
   background-image: linear-gradient(to right,#DD7DD7,#E1CD86,#BBCB92,#71C2Ef,#3BFFFF,#DD7DDF,#DD7DD7,#E1CD86,#BBCB92,#71C2Ef,#3BFFFF,#DD7DDF);
@@ -1594,6 +1610,10 @@ video {
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+}
+.px-2\.5 {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
 }
 .px-3 {
   padding-left: 0.75rem;
@@ -2120,6 +2140,11 @@ video {
   background-color: hsl(var(--destructive) / 0.9);
 }
 
+.hover\:bg-gray-200:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-gray-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
@@ -2142,12 +2167,21 @@ video {
   background-color: hsl(var(--secondary) / 0.8);
 }
 
+.hover\:bg-opacity-30:hover {
+  --tw-bg-opacity: 0.3;
+}
+
 .hover\:text-accent-foreground:hover {
   color: hsl(var(--accent-foreground));
 }
 
 .hover\:text-foreground:hover {
   color: hsl(var(--foreground));
+}
+
+.hover\:text-orange-500:hover {
+  --tw-text-opacity: 1;
+  color: rgb(249 115 22 / var(--tw-text-opacity));
 }
 
 .hover\:underline:hover {
