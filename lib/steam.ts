@@ -1,6 +1,6 @@
 import { Issuer } from 'openid-client';
 
-const realm = 'http://localhost:3000'; // Update this to match your production URL when deploying
+const realm = 'https://blazeapp-beta.vercel.app'; // Update this to match your production URL when deploying
 const redirectUri = `${realm}/api/auth/steam/callback`;
 
 const steamIssuer = new Issuer({
