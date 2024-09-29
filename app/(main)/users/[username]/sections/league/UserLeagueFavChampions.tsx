@@ -18,20 +18,6 @@ interface UserLeagueFavChampionsProps {
   champions: { name: string; championId: number }[];
 }
 
-// Simulated static data for champion stats
-const staticChampionStats = {
-  55: { // Example champion ID for Katarina
-    championLevel: 5,
-    championPoints: 12000,
-    eternals: {
-      kills: 100,
-      deaths: 50,
-      assists: 80,
-    },
-    winRate: 55.0, // in percentage
-  },
-  // Add more static data for other champions as needed
-};
 
 const UserLeagueFavChampions: React.FC<UserLeagueFavChampionsProps> = ({ userId, userPUUID, champions }) => {
   // Fetch champion stats or use static data
@@ -43,12 +29,6 @@ const UserLeagueFavChampions: React.FC<UserLeagueFavChampionsProps> = ({ userId,
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {champions.map((champion) => {
         // Get static stats for the champion, or use defaults if not found
-        const stats = staticChampionStats[champion.championId] || {
-          championLevel: 0,
-          championPoints: 0,
-          eternals: { kills: 0, deaths: 0, assists: 0 },
-          winRate: 0,
-        };
 
         return (
           <div key={champion.championId} className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -68,8 +48,6 @@ const UserLeagueFavChampions: React.FC<UserLeagueFavChampionsProps> = ({ userId,
                 height={128}
                 alt="Mastery level"
               /></p>
-                <p className="text-sm mb-1">Eternals - Kills: {stats.eternals.kills}, Deaths: {stats.eternals.deaths}, Assists: {stats.eternals.assists}</p>
-                <p className="text-sm">Win Rate: {stats.winRate.toFixed(1)}%</p>
               </div>
             </div>
           </div>
