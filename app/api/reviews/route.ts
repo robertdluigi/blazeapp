@@ -16,11 +16,9 @@ export async function GET(request: Request) {
       where.gameId = gameId;
     }
 
-    // Fetch the reviews from the database
-    const reviews: ReviewData[] = await prisma.review.findMany({
-      where,
-      include: getReviewDataInclude(''), // Pass an empty string for loggedInUserId if needed
-    });
+  // Fetch the reviews from the database
+// create an empty reviews const
+    const reviews: ReviewData[] = [];
 
     // Return the reviews as a JSON response
     return NextResponse.json(reviews);

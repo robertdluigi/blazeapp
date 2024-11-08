@@ -121,9 +121,6 @@ export interface PostsPage {
 // Function to include user data in reviews
 export function getReviewDataInclude(loggedInUserId: string) {
   return {
-    reviewee: {
-      select: getUserDataSelect(loggedInUserId),
-    },
     reviewer: {
       select: getUserDataSelect(loggedInUserId),
     },
