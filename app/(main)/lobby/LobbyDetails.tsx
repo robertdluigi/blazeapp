@@ -37,6 +37,7 @@ const LobbyDetails: React.FC<LobbyDetailsProps> = ({
 
         <ScrollArea className="h-3/4 rounded-lg overflow-hidden bg-gray-900 shadow-md p-4 relative">
           <LobbyBackground className="absolute inset-0 w-full h-full" /> 
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 relative z-10 p-2">
             {participantCount > 0 ? (
               members.map((member, index) => (

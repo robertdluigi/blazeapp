@@ -16,6 +16,7 @@ interface LobbyDetailsData {
 
 // Define the structure for a participant
 interface Participant {
+  username: string;
   displayName: string;
   avatarUrl: string; // URL to the profile picture
   bannerUrl: string; // Optional: URL to the banner picture
