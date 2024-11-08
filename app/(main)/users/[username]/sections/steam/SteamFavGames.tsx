@@ -21,13 +21,14 @@ interface SteamFavGamesProps {
 const SteamFavGames: React.FC<SteamFavGamesProps> = ({ title, content, userId }) => {
   // Use React Query to fetch and cache game details
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['user-steam-games', userId], // Cache key based on userId
+    queryKey: ['user-steam-games', userId, content.steamGames], // Include steamGames to differentiate sections
     queryFn: async () => {
       const response = await axios.get(`/api/users/${userId}/games/steam`);
       const { games } = response.data;
       return games.filter((game: GameDetails) => content.steamGames.includes(game.appid));
     },
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    staleTime: 1000 * 60 * 5, // Cache data for 5 minutes (data is considered fresh for 5 minutes)
+    refetchOnWindowFocus: false, // Disable refetch on window focus
   });
 
   if (isLoading) {

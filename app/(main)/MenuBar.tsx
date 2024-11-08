@@ -54,11 +54,5 @@ export default async function MenuBar({ className }: MenuBarProps) {
         <span className="hidden lg:inline">Looking for Game</span>
       </Link>
     </Button>
-    {!isSubscribed && (
-      <SubscribeButton>
-        <CreditCard className="mr-2 h-4 w-4" />
-        <span className="hidden lg:inline">Subscribe</span>
-      </SubscribeButton>
-    )}
   </div>
 }

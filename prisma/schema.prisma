@@ -17,62 +17,61 @@ model Subscriber {
 }
 
 model User {
-  id                    String         @id
-  username              String         @unique
-  displayName           String
-  email                 String?        @unique
-  passwordHash          String?
+  id                   String        @id @default(cuid())
+  username             String        @unique
+  displayName          String
+  email                String?       @unique
+  passwordHash         String?
 
-  googleId              String?        @unique
-  steamId               String?        @unique
-  riotId                String?        @unique
-  riotAccessToken       String?
-  riotRefreshToken      String?
-  riotPUUID             String?
-  riotCPID              String?
-  genshinUid            String?        // New field for Genshin Impact UID
-  honkaiId              String?        // New field for Honkai Impact ID
-  hoyolabLtokenV2       String?        // New field for HoYoLAB ltokenV2
-  hoyolabLtuidV2        String?        // New field for HoYoLAB ltuidV2
-  hoyolabConnected      Boolean        @default(false)
+  googleId             String?       @unique
+  steamId              String?       @unique
+  riotId               String?       @unique
+  riotAccessToken      String?
+  riotRefreshToken     String?
+  riotPUUID            String?
+  riotCPID             String?
 
-  avatarUrl             String?
-  bannerUrl             String?
-  bannerColor           String?
-  cardPrimaryColor      String?
-  cardSecondaryColor    String?
-  cardBackground        String?
-  cardFeaturedGames     String?
-  bio                   String?
-  sessions              Session[]
-  posts                 Post[]
-  following             Follow[]       @relation("Following")
-  followers             Follow[]       @relation("Followers")
-  likes                 Like[]
-  bookmarks             Bookmark[]
-  comments              Comment[]
+  avatarUrl            String?
+  bannerUrl            String?
+  bannerColor          String?
+  cardPrimaryColor     String?
+  cardSecondaryColor   String?
+  cardBackground       String?
+  cardFeaturedGames    String?
+  bio                  String?
+  sessions             Session[]
+  posts                Post[]
+  following            Follow[]      @relation("Following")
+  followers            Follow[]      @relation("Followers")
+  likes                Like[]
+  bookmarks            Bookmark[]
+  comments             Comment[]
   receivedNotifications Notification[] @relation("Recipient")
   issuedNotifications   Notification[] @relation("Issuer")
-  profileSections       ProfileSection[] // New relation to ProfileSection
+  profileSections      ProfileSection[]
 
-  subscription          Subscription?    // New relation to Subscription
-  plan                  PlanType         @default(FREE) // New field to track plan
-  reviewLimit           Int              @default(0) // Track daily review usage (free plan)
+  currentLobbyId       String?      // Just a String, not a relation
+  lobbies              Participant[] // Lobbies the user has participated in
+  reviewsLeft          Review[]      @relation("ReviewReviewer")
+  reviewsGiven         Review[]      @relation("ReviewReviewed")
+  reviewLimit          Int?
+  subscription         Subscription? 
+  plan                 PlanType      @default(FREE)
 
-  createdAt DateTime @default(now())
+  createdAt            DateTime      @default(now())
 
   @@map("users")
 }
 
 model Subscription {
-  id             Int       @id @default(autoincrement())
-  userId         String    @unique
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  stripeCustomerId String  // Stripe Customer ID
+  id                   Int       @id @default(autoincrement())
+  userId               String    @unique
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId     String // Stripe Customer ID
   stripeSubscriptionId String? // Stripe Subscription ID
-  plan           PlanType  @default(FREE)
-  createdAt      DateTime  @default(now())
-  expiresAt      DateTime?
+  plan                 PlanType  @default(FREE)
+  createdAt            DateTime  @default(now())
+  expiresAt            DateTime?
 
   @@map("subscriptions")
 }
@@ -83,21 +82,20 @@ enum PlanType {
   FOUNDER
 }
 
-
 model Session {
   id        String   @id
   userId    String
   expiresAt DateTime
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
 }
 
 model Follow {
-  followerId String
-  follower User @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId  String
+  follower    User   @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
   followingId String
-  following User @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
+  following   User   @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
 
   @@unique([followerId, followingId])
   @@map("follows")
@@ -141,7 +139,7 @@ model Comment {
   userId  String
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   postId  String
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 
@@ -189,82 +187,130 @@ model Bookmark {
 }
 
 model ProfileSection {
-  id        String   @id @default(cuid())
+  id        String      @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   title     String
   type      SectionType
   content   Json
   order     Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 
   @@map("profile_sections")
+}
+
+model Lobby {
+  id           String        @id @default(uuid()) // Unique session identifier
+  userId       String        @unique
+  gameTitle    String
+  gameMode     String
+  maxPlayers   Int
+  inviteCode   String        @unique
+  participants Participant[] // List of users participating in this session
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  endedAt      DateTime?     // Nullable, set when session ends
+  reviews      Review[] // Reviews submitted after session ends
+}
+
+model Participant {
+  id      String  @id @default(uuid())
+  userId  String  // Reference to User
+  lobbyId String  // Reference to Lobby
+  user    User    @relation(fields: [userId], references: [id])
+  lobby   Lobby   @relation(fields: [lobbyId], references: [id])
+}
+
+model Review {
+  id             String   @id @default(uuid())
+  lobbyId        String   // Link the review to a lobby
+  reviewerId     String   // User who submitted the review
+  reviewedUserId String   // User being reviewed
+  tags           String[] // Tags selected for the review
+  voteType       VoteType // Enum: 'up' or 'down'
+  createdAt      DateTime @default(now()) // When the review was created
+  reviewer       User     @relation("ReviewReviewer", fields: [reviewerId], references: [id])
+  reviewedUser   User     @relation("ReviewReviewed", fields: [reviewedUserId], references: [id])
+  lobby          Lobby    @relation(fields: [lobbyId], references: [id])
+}
+
+enum VoteType {
+  up
+  down
 }
 
 enum ReviewType {
   TOXIC_TAG
   CHILL_TAG
   CARRY_TAG
+  MPV_TAG
+  AFK_TAG
+  INTING_TAG
+  GRIEF_TAG
+  SHOTCALLER_TAG
+  LEADER_TAG
+  STRATEGIST_TAG
+  FUNNY_TAG
 }
 
 enum SectionType {
-
   // League of Legends Sections
-  USER_LEAGUE_FAV_CHAMPIONS        // Favorite League of Legends champions
-  USER_LEAGUE_FAV_CHAMPION         // Favorite single League of Legends champion
-  USER_LEAGUE_RANKS                // Display ranks across different seasons or modes
-  USER_LEAGUE_RANK                 // Display current rank
-  USER_LEAGUE_QUEUE_RANKS          // Display ranks per queue (Solo, Flex, etc.)
-  USER_LEAGUE_QUEUE_RANK           // Display rank for a specific queue
+  USER_LEAGUE_FAV_CHAMPIONS // Favorite League of Legends champions
+  USER_LEAGUE_FAV_CHAMPION // Favorite single League of Legends champion
+  USER_LEAGUE_RANKS // Display ranks across different seasons or modes
+  USER_LEAGUE_RANK // Display current rank
+  USER_LEAGUE_QUEUE_RANKS // Display ranks per queue (Solo, Flex, etc.)
+  USER_LEAGUE_QUEUE_RANK // Display rank for a specific queue
 
   // Valorant Sections
-  USER_VALORANT_FAV_AGENTS         // Favorite Valorant agents
-  USER_VALORANT_FAV_AGENT          // Favorite single Valorant agent
-  USER_VALORANT_RANKS              // Display ranks across different seasons or modes
-  USER_VALORANT_RANK               // Display current rank
+  USER_VALORANT_FAV_AGENTS // Favorite Valorant agents
+  USER_VALORANT_FAV_AGENT // Favorite single Valorant agent
+  USER_VALORANT_RANKS // Display ranks across different seasons or modes
+  USER_VALORANT_RANK // Display current rank
 
   // Genshin Impact Sections
-  USER_GENSHIN_FAV_CHARACTERS      // Favorite Genshin Impact characters
-  USER_GENSHIN_FAV_CHARACTER       // Favorite single Genshin Impact character
-  USER_GENSHIN_OWNED_CHARACTERS    // Display owned Genshin Impact characters
+  USER_GENSHIN_FAV_CHARACTERS // Favorite Genshin Impact characters
+  USER_GENSHIN_FAV_CHARACTER // Favorite single Genshin Impact character
+  USER_GENSHIN_OWNED_CHARACTERS // Display owned Genshin Impact characters
 
   // Steam Sections
-  USER_STEAM_FAV_GAMES             // Favorite Steam games
-  USER_STEAM_FAV_GAME              // Favorite single Steam game
-  USER_STEAM_OWNED_GAMES           // Display owned Steam games
-  USER_STEAM_ACHIEVEMENTS          // Display Steam achievements
-  USER_STEAM_FAV_ACHIEVEMENTS      // Favorite Steam achievements
-  USER_STEAM_INVENTORY             // Display Steam inventory
+  USER_STEAM_FAV_GAMES // Favorite Steam games
+  USER_STEAM_FAV_GAME // Favorite single Steam game
+  USER_STEAM_OWNED_GAMES // Display owned Steam games
+  USER_STEAM_ACHIEVEMENTS // Display Steam achievements
+  USER_STEAM_FAV_ACHIEVEMENTS // Favorite Steam achievements
+  USER_STEAM_INVENTORY // Display Steam inventory
 
   // Lost Ark Sections
-  USER_LOSTARK_CHARACTERS          // Display Lost Ark characters
-  USER_LOSTARK_FAV_CHAR            // Favorite single Lost Ark character
+  USER_LOSTARK_CHARACTERS // Display Lost Ark characters
+  USER_LOSTARK_FAV_CHAR // Favorite single Lost Ark character
 
   // Profile Activity Sections
-  USER_PROFILE_PLAYING_WITH_MOST   // Display users they play with the most
-  USER_PROFILE_PLAYING_WITH        // Display specific users they play with
+  USER_PROFILE_PLAYING_WITH_MOST // Display users they play with the most
+  USER_PROFILE_PLAYING_WITH // Display specific users they play with
 
   // Profile Highlights and Media Sections
-  USER_PROFILE_HIGHLIGHTS          // Display profile highlights
-  USER_PROFILE_MEDIA               // Display media (images, videos)
+  USER_PROFILE_HIGHLIGHTS // Display profile highlights
+  USER_PROFILE_MEDIA // Display media (images, videos)
 
   // Profile Badges Sections
-  USER_PROFILE_FAV_BADGES          // Favorite badges earned
-  USER_PROFILE_BADGES              // Display all earned badges
+  USER_PROFILE_FAV_BADGES // Favorite badges earned
+  USER_PROFILE_BADGES // Display all earned badges
 
   // Socials and Stats Sections
-  USER_PROFILE_SOCIALS             // Display social media links
-  USER_PROFILE_STATS               // Display user stats across games or platforms
+  USER_PROFILE_SOCIALS // Display social media links
+  USER_PROFILE_STATS // Display user stats across games or platforms
 
   // Custom Section
-  CUSTOM                           // Custom section created by the user
+  CUSTOM // Custom section created by the user
 }
-
 
 enum NotificationType {
   LIKE
   FOLLOW
   COMMENT
   REVIEW
+  TICKET
+  SYSTEM
 }

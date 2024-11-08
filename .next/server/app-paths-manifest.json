@@ -1,13 +1,10 @@
 {
+  "/api/notifications/unread-count/route": "app/api/notifications/unread-count/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/api/users/[userId]/sections/route": "app/api/users/[userId]/sections/route.js",
-  "/api/notifications/unread-count/route": "app/api/notifications/unread-count/route.js",
-  "/api/posts/for-you/route": "app/api/posts/for-you/route.js",
-  "/api/posts/[postId]/comments/route": "app/api/posts/[postId]/comments/route.js",
-  "/api/posts/[postId]/likes/route": "app/api/posts/[postId]/likes/route.js",
-  "/api/users/username/[username]/route": "app/api/users/username/[username]/route.js",
   "/api/users/[userId]/games/steam/route": "app/api/users/[userId]/games/steam/route.js",
+  "/api/users/[userId]/posts/route": "app/api/users/[userId]/posts/route.js",
   "/(main)/page": "app/(main)/page.js",
-  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(main)/lobby/page": "app/(main)/lobby/page.js",
   "/(main)/users/[username]/page": "app/(main)/users/[username]/page.js"
 }

@@ -10,7 +10,6 @@ import AccountSettings from "./AccountSettings";
 import ProfileSettings from "./ProfileSettings";
 import BillingSettings from "./BillingSettings";
 import prisma from "@/lib/prisma";
-import ConnectionSettings from "./ConnectionSettings";
 
 async function fetchSteamData(steamID: string) {
     try {
@@ -143,7 +142,7 @@ export default async function Settings() {
                                 )}
                             </div>
                             {/* Genshin Impact and Honkai: Star Rail Connections */}
-                            <ConnectionSettings userData={{ genshinUid: user.genshinUid ?? undefined, honkaiId: user.honkaiId ?? undefined }} />
+                            {/*<ConnectionSettings userData={{ genshinUid: user.genshinUid ?? undefined, honkaiId: user.honkaiId ?? undefined }} /> */}
                         </CardContent>
                     </Card>
                 </TabsContent>

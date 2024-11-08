@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { Lucia, Session, User } from "lucia";
 import { cache } from "react";
 import { cookies } from "next/headers";
+import { create } from "domain";
 
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
@@ -29,6 +30,7 @@ export const lucia = new Lucia(adapter, {
             honkaiId: databaseUserAttributes.honkaiId,
             plan: databaseUserAttributes.plan,
             reviewLimit: databaseUserAttributes.reviewLimit,
+            currentLobbyId: databaseUserAttributes.currentLobbyId,
         };
     }
 })
@@ -55,6 +57,7 @@ interface DatabaseUserAttributes {
     honkaiId: string|null,
     plan: string|null,
     reviewLimit: number|null,
+    currentLobbyId: string|null,
 }
 
 export const validateRequest = cache(

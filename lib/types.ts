@@ -1,5 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { SectionType } from '@/lib/sections';
+
+// Function to select user data
 export function getUserDataSelect(loggedInUserId: string) {
   return {
     id: true,
@@ -13,11 +15,10 @@ export function getUserDataSelect(loggedInUserId: string) {
     cardPrimaryColor: true,
     cardSecondaryColor: true,
     cardBackground: true,
+    currentLobbyId: true,
     riotPUUID: true,
     riotCPID: true, // Add this property
     steamId: true,
-    genshinUid: true,
-    honkaiId: true,
     followers: {
       where: {
         followerId: loggedInUserId,
@@ -62,6 +63,7 @@ export type UserData = Prisma.UserGetPayload<{
   select: ReturnType<typeof getUserDataSelect>;
 }>;
 
+// Subscription type definition
 export type SubscriptionData = Prisma.SubscriptionGetPayload<{
   select: {
     id: true;
@@ -75,6 +77,7 @@ export type SubscriptionData = Prisma.SubscriptionGetPayload<{
 
 export type PlanType = 'FREE' | 'PRO' | 'FOUNDER';
 
+// Function to include user data in posts
 export function getPostDataInclude(loggedInUserId: string) {
   return {
     user: {
@@ -115,12 +118,43 @@ export interface PostsPage {
   nextCursor: string | null;
 }
 
+// Function to include user data in reviews
+export function getReviewDataInclude(loggedInUserId: string) {
+  return {
+    reviewee: {
+      select: getUserDataSelect(loggedInUserId),
+    },
+    reviewer: {
+      select: getUserDataSelect(loggedInUserId),
+    },
+  } satisfies Prisma.ReviewInclude;
+}
+
+export type ReviewData = Prisma.ReviewGetPayload<{
+  include: ReturnType<typeof getReviewDataInclude>;
+}>;
+
+export interface ReviewsPage {
+  reviews: ReviewData[];
+  previousCursor: string | null;
+}
+
+// Function to include user data in comments
 export function getCommentDataInclude(loggedInUserId: string) {
   return {
     user: {
       select: getUserDataSelect(loggedInUserId),
     },
   } satisfies Prisma.CommentInclude;
+}
+
+export type CommentData = Prisma.CommentGetPayload<{
+  include: ReturnType<typeof getCommentDataInclude>;
+}>;
+
+export interface CommentsPage {
+  comments: CommentData[];
+  previousCursor: string | null;
 }
 
 // Profile Section-related Types
@@ -135,6 +169,7 @@ export interface ProfileSection {
   updatedAt: Date;
 }
 
+// Function to include user data in profile sections
 export function getSectionDataInclude(loggedInUserId: string) {
   return {
     user: {
@@ -155,16 +190,7 @@ export interface CreateSectionInput {
   order: number;
 }
 
-export type CommentData = Prisma.CommentGetPayload<{
-  include: ReturnType<typeof getCommentDataInclude>;
-}>;
-
-
-export interface CommentsPage {
-  comments: CommentData[];
-  previousCursor: string | null;
-}
-
+// Notifications and Likes Info
 export const notificationsInclude = {
   issuer: {
     select: {
@@ -209,4 +235,39 @@ export interface NotificationCountInfo {
 
 export interface MessageCountInfo {
   unreadCount: number;
+}
+// lobby types
+
+export interface Lobby {
+  id: string;
+  userId: string;
+  gameTitle: string;
+  gameMode: string;
+  maxPlayers: number;
+  inviteCode: string;
+  createdAt: Date;
+  updatedAt: Date;
+  endedAt: Date | null;
+}
+
+export interface LobbiesPage {
+  lobbies: Lobby[];
+  nextCursor: string | null;
+}
+
+export interface LobbiesInfo {
+  lobbies: Lobby[];
+  nextCursor: string | null;
+} 
+
+export interface LobbiesCountInfo { 
+  lobbiesCount: number; 
+} 
+
+export interface CreateLobbyInput {
+  userId: string;
+  gameTitle: string;
+  gameMode: string;
+  maxPlayers: number;
+  inviteCode: string;
 }

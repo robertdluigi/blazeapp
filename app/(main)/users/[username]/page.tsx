@@ -15,6 +15,7 @@ import EditProfileButton from "./EditProfileButton";
 import UserPosts from "./UserPosts";
 import UserLeagueMatches from "./UserLeagueMatches";
 import UserProfileSections from "./UserProfileSections";
+import UserProfileReviews from "./UserProfileReviews";
 
 interface PageProps {
   params: { username: string };
@@ -83,7 +84,7 @@ export default async function Page({ params: { username } }: PageProps) {
             <UserPosts userId={user.id} />
           </TabsContent>
           <TabsContent className="py-5" value="reviews">
-            <UserLeagueMatches userId={user.id} riotPUUID={user.riotPUUID as string} />
+            <UserProfileReviews userId={user.id} />
           </TabsContent>
           <TabsContent className="py-5" value="highlights">
             Highlights
