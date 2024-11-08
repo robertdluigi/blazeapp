@@ -36,9 +36,7 @@ const LobbyDetails: React.FC<LobbyDetailsProps> = ({
         <h2 className="text-2xl font-bold mb-6 text-white">Lobby Members</h2>
 
         <ScrollArea className="h-3/4 rounded-lg overflow-hidden bg-gray-900 shadow-md p-4 relative">
-        /* eslint-disable */
           <LobbyBackground className="absolute inset-0 w-full h-full" /> 
-        /* eslint-enable */
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 relative z-10 p-2">
             {participantCount > 0 ? (
               members.map((member, index) => (
