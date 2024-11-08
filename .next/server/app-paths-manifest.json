@@ -1,10 +1,4 @@
 {
-  "/api/notifications/unread-count/route": "app/api/notifications/unread-count/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/users/[userId]/sections/route": "app/api/users/[userId]/sections/route.js",
-  "/api/users/[userId]/games/steam/route": "app/api/users/[userId]/games/steam/route.js",
-  "/api/users/[userId]/posts/route": "app/api/users/[userId]/posts/route.js",
   "/(main)/page": "app/(main)/page.js",
-  "/(main)/lobby/page": "app/(main)/lobby/page.js",
-  "/(main)/users/[username]/page": "app/(main)/users/[username]/page.js"
+  "/(main)/lobby/page": "app/(main)/lobby/page.js"
 }
