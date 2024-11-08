@@ -2,7 +2,7 @@ import UserAvatar from "@/components/UserAvatar";
 import { NotificationData } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { NotificationType } from "@prisma/client";
-import { Heart, MessageCircle, User2, Star } from "lucide-react";
+import { Heart, MessageCircle, User2, Star, Ticket, Shield } from "lucide-react";
 import Link from "next/link";
 
 interface NotificationProps {
@@ -34,6 +34,16 @@ export default function Notification({ notification }: NotificationProps) {
       icon: <Star className="size-7 fill-yellow-500 text-yellow-500" />,
       href: `/posts/${notification.postId}`,
     },
+    TICKET: {
+      message: "You got a new ticket reply",
+      icon: <Ticket className="size-7 fill-blue-500 text-primary"/>,
+      href: ""
+    },
+    SYSTEM: {
+      message: "System notification",
+      icon: <Shield className="size-7 fill-blue-500 text-primary"/>,
+      href: ""
+    }
   };
 
   const { message, icon, href } = notificationTypeMap[notification.type];

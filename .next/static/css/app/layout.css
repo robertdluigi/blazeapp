@@ -1681,6 +1681,9 @@ video {
 .fill-yellow-500 {
   fill: #eab308;
 }
+.fill-blue-500 {
+  fill: #3b82f6;
+}
 .object-cover {
   object-fit: cover;
 }
