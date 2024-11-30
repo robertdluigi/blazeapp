@@ -33,7 +33,7 @@ export default async function Page() {
           <div>
           
           <LobbyForm userId={userId} />
-          <JoinLobbyButton userId={userId} lobbyId='1b0a95ea-b5ee-4827-93bc-eaef5fbab9ff'/>
+          <JoinLobbyButton lobbyId='1b0a95ea-b5ee-4827-93bc-eaef5fbab9ff'/>
           </div>
         )
       ) : (
