@@ -1,8 +1,7 @@
 import { QueryFilters, useMutation, useQueryClient, UseMutationResult } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
-import { createLobby, fetchLobbyIdByInviteCode } from './actions'; // Import fetchLobbyByInviteCode
+import { createLobby } from './actions'; // Import fetchLobbyByInviteCode
 import { Lobby, CreateLobbyInput, JoinLobbyInput } from '@/lib/types';
-import { useRouter } from 'next/navigation';
 
 // Define the custom hook for creating a lobby
 export function useCreateLobby(): UseMutationResult<Lobby, Error, CreateLobbyInput> {
