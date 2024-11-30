@@ -268,3 +268,7 @@ export interface CreateLobbyInput {
   maxPlayers: number;
   inviteCode: string;
 }
+
+export interface JoinLobbyInput {
+  inviteCode: string;
+}

@@ -1,9 +1,8 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/lobby/route": "app/api/lobby/route.js",
   "/api/notifications/unread-count/route": "app/api/notifications/unread-count/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/lobby/[lobbyId]/events/route": "app/api/lobby/[lobbyId]/events/route.js",
-  "/api/lobby/[lobbyId]/route": "app/api/lobby/[lobbyId]/route.js",
-  "/(main)/lobby/page": "app/(main)/lobby/page.js"
+  "/(main)/page": "app/(main)/page.js",
+  "/(main)/users/[username]/page": "app/(main)/users/[username]/page.js",
+  "/(main)/lobby/page": "app/(main)/lobby/page.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(main)/notifications/page": "app/(main)/notifications/page.js"
 }

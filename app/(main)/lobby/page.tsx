@@ -30,10 +30,8 @@ export default async function Page() {
           <Lobby lobbyId={currentLobbyId} />
         ) : (
           // Otherwise, render the LobbyForm to create a new lobby
-          <div>
-          
+          <div className='flex'>
           <LobbyForm userId={userId} />
-          <JoinLobbyButton lobbyId='1b0a95ea-b5ee-4827-93bc-eaef5fbab9ff'/>
           </div>
         )
       ) : (

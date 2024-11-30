@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Import useRouter hook
 
 interface JoinLobbyButtonProps {
-  lobbyId: string;
+  lobbyId: string | null;
 }
 
 const JoinLobbyButton: React.FC<JoinLobbyButtonProps> = ({ lobbyId }) => {
