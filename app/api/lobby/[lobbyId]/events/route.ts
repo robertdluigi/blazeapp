@@ -96,7 +96,7 @@ export async function GET(req: Request, { params }: { params: { lobbyId: string 
   headers.set('Transfer-Encoding', 'chunked');
   headers.set('Access-Control-Allow-Origin', '*');
   headers.set('Access-Control-Allow-Methods', 'GET');
-
+  headers.set('Content-Ecoding', 'none');
   let currentController: ReadableStreamDefaultController | null = null;
 
   const stream = new ReadableStream({
