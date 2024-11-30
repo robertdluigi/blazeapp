@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -9,8 +9,6 @@ import { useCreateLobby } from './mutations';
 import { CreateLobbyInput } from '@/lib/types';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { debounce } from 'lodash'; // For debouncing
-import JoinLobbyButton from '@/components/JoinLobbyButton';
 
 const games = [
   { value: '', label: 'Select a game' },
@@ -29,42 +27,38 @@ const LobbyForm: React.FC<{ userId: string }> = ({ userId }) => {
   const [selectedGame, setSelectedGame] = useState('');
   const [selectedMode, setSelectedMode] = useState('');
   const [maxPlayers, setMaxPlayers] = useState(5);
-  const [inviteCode, setInviteCode] = useState('');
-  const [lobbyId, setLobbyId] = useState<string | null>(null); // State for the lobbyId
+  const [lobbyId, setLobbyId] = useState(''); // State for the lobby ID input
   const { toast } = useToast();
-  const router = useRouter();
 
+  const [isJoining, setIsJoining] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter(); // Access the router instance
   const createLobbyMutation = useCreateLobby(); // Mutation for creating a lobby
-
-  // Function to fetch lobbyId based on inviteCode
-  const fetchLobbyId = async (code: string) => {
-    if (code.trim() === '') {
-      setLobbyId(null);
-      return;
-    }
+  const joinLobby = async () => {
+    setIsJoining(true);
+    setError(null);
 
     try {
-      const response = await fetch(`/api/lobby/find-by-invite/${code}`);
-      if (response.ok) {
-        const data = await response.json();
-        setLobbyId(data.lobbyId); // Set the lobbyId from the API response
-      } else {
-        setLobbyId(null); // Handle case where the invite code is invalid
+      // Send POST request to join the lobby
+      const response = await fetch(`/api/lobby/${lobbyId}/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
       }
+      router.refresh();
+
     } catch (err) {
-      console.error('Error fetching lobby:', err);
-      setLobbyId(null);
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setIsJoining(false);
     }
   };
-
-  // Debounced version of fetchLobbyId to avoid frequent calls on each keystroke
-  const debouncedFetchLobbyId = debounce((code: string) => {
-    fetchLobbyId(code);
-  }, 500);
-
-  useEffect(() => {
-    debouncedFetchLobbyId(inviteCode); // Call the debounced function
-  }, [inviteCode]);
 
   const handleCreateLobby = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,11 +88,6 @@ const LobbyForm: React.FC<{ userId: string }> = ({ userId }) => {
     });
   };
 
-  // Update the invite code state as the user types
-  const handleInviteCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const code = e.target.value;
-    setInviteCode(code); // Update invite code state
-  };
   return (
     <div className="flex flex-col items-center w-full justify-center p-4">
       <h1 className="text-2xl font-bold mb-6">Lobby Management</h1>
@@ -169,24 +158,27 @@ const LobbyForm: React.FC<{ userId: string }> = ({ userId }) => {
               </Button>
             </form>
           </TabsContent>
-          
+
           {/* Join Lobby Tab */}
           <TabsContent value="join">
             <div className="mb-4">
-              <label htmlFor="invite-code" className="block text-sm font-medium text-gray-300 mb-2">
-                Invite Code
+              <label htmlFor="lobby-id" className="block text-sm font-medium text-gray-300 mb-2">
+                Lobby ID
               </label>
               <Input
                 type="text"
-                id="invite-code"
-                value={inviteCode}
-                onChange={handleInviteCodeChange} // Use the updated change handler
-                placeholder="Enter invite code"
+                id="lobby-id"
+                value={lobbyId}
+                onChange={(e) => setLobbyId(e.target.value)}
+                placeholder="Enter lobby ID"
                 required
               />
-              {lobbyId && <p className="text-green-500 mt-2">Lobby ID: {lobbyId}</p>} {/* Show Lobby ID */}
             </div>
-            <JoinLobbyButton lobbyId={lobbyId} />
+              <Button
+              disabled={isJoining}
+              onClick={joinLobby} className="w-full">
+                Join Lobby
+              </Button>
           </TabsContent>
         </Tabs>
       </Card>
