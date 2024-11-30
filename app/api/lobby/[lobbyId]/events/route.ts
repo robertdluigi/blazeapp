@@ -1,17 +1,19 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { validateRequest } from "@/auth";
-import { revalidatePath } from 'next/cache';
 
 // This map will store active SSE connections for each lobby
 const sseConnections: Map<string, Array<ReadableStreamDefaultController>> = new Map();
+
+export const config = {
+  runtime: 'edge', // Use Edge Runtime for better streaming support
+};
 
 export async function POST(req: Request, { params }: { params: { lobbyId: string } }) {
   const { lobbyId } = params; // Extract lobbyId from the route
   const currentUser = await validateRequest();
   const currentUserId = currentUser.user?.id;
 
-  // Ensure the user is authenticated
   if (!currentUserId) {
     return new NextResponse('User is not authenticated', { status: 401 });
   }
@@ -40,12 +42,12 @@ export async function POST(req: Request, { params }: { params: { lobbyId: string
     },
   });
 
-  // Update the user current-lobby-id
+  // Update the user's current lobby ID
   await prisma.user.update({
     where: { id: currentUserId },
-    data: { currentLobbyId: lobbyId }, // Set the currentLobbyId for the user
+    data: { currentLobbyId: lobbyId },
   });
-  
+
   // Fetch the new participant details
   const participant = await prisma.user.findUnique({
     where: { id: currentUserId },
@@ -72,13 +74,9 @@ export async function POST(req: Request, { params }: { params: { lobbyId: string
     controller.enqueue(`data: ${JSON.stringify(eventData)}\n\n`);
   });
 
-  
-
-  // Send a response back to the client
   return new NextResponse('User successfully joined the lobby', { status: 200 });
 }
 
-// GET route for establishing SSE connection (unchanged)
 export async function GET(req: Request, { params }: { params: { lobbyId: string } }) {
   const { lobbyId } = params;
   const currentUser = await validateRequest();
@@ -89,14 +87,13 @@ export async function GET(req: Request, { params }: { params: { lobbyId: string 
   }
 
   // Set headers for SSE
-  const headers = new Headers();
-  headers.set('Content-Type', 'text/event-stream');
-  headers.set('Cache-Control', 'no-cache');
-  headers.set('Connection', 'keep-alive');
-  headers.set('Transfer-Encoding', 'chunked');
-  headers.set('Access-Control-Allow-Origin', '*');
-  headers.set('Access-Control-Allow-Methods', 'GET');
-  headers.set('Content-Ecoding', 'none');
+  const headers = new Headers({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache, no-transform',
+    'Connection': 'keep-alive',
+    'Access-Control-Allow-Origin': '*', // Adjust based on your CORS policy
+  });
+
   let currentController: ReadableStreamDefaultController | null = null;
 
   const stream = new ReadableStream({
@@ -109,8 +106,8 @@ export async function GET(req: Request, { params }: { params: { lobbyId: string 
       }
       sseConnections.get(lobbyId)?.push(controller);
 
+      // Handle request abortion
       req.signal.addEventListener('abort', () => {
-        // Remove this connection from the lobby's list of active SSE connections
         const connections = sseConnections.get(lobbyId);
         if (connections) {
           const index = connections.indexOf(controller);
