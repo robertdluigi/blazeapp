@@ -5,10 +5,6 @@ import { validateRequest } from "@/auth";
 // This map will store active SSE connections for each lobby
 const sseConnections: Map<string, Array<ReadableStreamDefaultController>> = new Map();
 
-export const config = {
-  runtime: 'edge', // Use Edge Runtime for better streaming support
-};
-
 export async function POST(req: Request, { params }: { params: { lobbyId: string } }) {
   const { lobbyId } = params; // Extract lobbyId from the route
   const currentUser = await validateRequest();
