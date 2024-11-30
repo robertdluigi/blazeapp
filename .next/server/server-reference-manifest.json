@@ -57,8 +57,16 @@
       "layer": {
         "app/(main)/lobby/page": "action-browser"
       }
+    },
+    "b46186af656c9636df4d33b46bdf182b5ef7ae57": {
+      "workers": {
+        "app/(main)/lobby/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(main)%5C%5Clobby%5C%5Cactions.ts%22%2C%5B%22fetchCurrentLobbyId%22%2C%22createLobby%22%5D%5D%2C%5B%22L%3A%5C%5CDevelopment%5C%5Cblazegg%5C%5Cblazegg-launch%5C%5Capp%5C%5C(auth)%5C%5Cactions.ts%22%2C%5B%22logout%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(main)/lobby/page": "action-browser"
+      }
     }
   },
   "edge": {},
-  "encryptionKey": "J95ew2tEqWKSE/f8omC54ffD0UPDbahI8JUINu6RgEI="
+  "encryptionKey": "PxJ2kKk9AA6/5go0mbhgHECwZh0bK2OB5Q0+LT4jKwA="
 }

@@ -2,6 +2,7 @@
 import LobbyForm from './LobbyForm';
 import Lobby from './Lobby'; // Ensure you have a Lobby component imported
 import { validateRequest } from '@/auth';
+import JoinLobbyButton from '@/components/JoinLobbyButton';
 
 export default async function Page() {
   const user = await validateRequest(); // Fetch user data
@@ -29,7 +30,11 @@ export default async function Page() {
           <Lobby lobbyId={currentLobbyId} />
         ) : (
           // Otherwise, render the LobbyForm to create a new lobby
+          <div>
+          
           <LobbyForm userId={userId} />
+          <JoinLobbyButton userId={userId} lobbyId='1b0a95ea-b5ee-4827-93bc-eaef5fbab9ff'/>
+          </div>
         )
       ) : (
         <p>User not found.</p> // Handle case where user is not found

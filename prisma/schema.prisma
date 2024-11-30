@@ -215,12 +215,14 @@ model Lobby {
 }
 
 model Participant {
-  id      String  @id @default(uuid())
-  userId  String  // Reference to User
-  lobbyId String  // Reference to Lobby
-  user    User    @relation(fields: [userId], references: [id])
-  lobby   Lobby   @relation(fields: [lobbyId], references: [id])
+  id        String   @id @default(uuid())
+  userId    String   // Reference to User
+  lobbyId   String   // Reference to Lobby
+  user      User     @relation(fields: [userId], references: [id])
+  lobby     Lobby    @relation(fields: [lobbyId], references: [id])
+  createdAt DateTime @default(now()) // Automatically sets the timestamp when the participant is created
 }
+
 
 model Review {
   id             String   @id @default(uuid())

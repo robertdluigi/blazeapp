@@ -908,6 +908,9 @@ video {
 .inline-flex {
   display: inline-flex;
 }
+.table {
+  display: table;
+}
 .grid {
   display: grid;
 }
@@ -1669,6 +1672,9 @@ video {
 .bg-clip-text {
   background-clip: text;
 }
+.fill-blue-500 {
+  fill: #3b82f6;
+}
 .fill-current {
   fill: currentColor;
 }
@@ -1680,9 +1686,6 @@ video {
 }
 .fill-yellow-500 {
   fill: #eab308;
-}
-.fill-blue-500 {
-  fill: #3b82f6;
 }
 .object-cover {
   object-fit: cover;
@@ -2258,9 +2261,9 @@ video {
   width: 100%;
 }
 
-.before\:bg-\[linear-gradient\(to_right\2c \#F87BFF\2c \#FB92CF\2c \#FFDD9B\2c \#C2F0B1\2c \#2FD8FE\)\]::before {
+.before\:bg-\[linear-gradient\(to_right\2c \#FC8A17\2c \#ED6C09\2c \#C4510A\2c \#ED6C09\2c \#FC8A17\)\]::before {
   content: var(--tw-content);
-  background-image: linear-gradient(to right,#F87BFF,#FB92CF,#FFDD9B,#C2F0B1,#2FD8FE);
+  background-image: linear-gradient(to right,#FC8A17,#ED6C09,#C4510A,#ED6C09,#FC8A17);
 }
 
 .before\:blur::before {
@@ -2437,10 +2440,6 @@ video {
 }
 
 .group\/post:hover .group-hover\/post\:opacity-100 {
-  opacity: 1;
-}
-
-.group\/review:hover .group-hover\/review\:opacity-100 {
   opacity: 1;
 }
 
