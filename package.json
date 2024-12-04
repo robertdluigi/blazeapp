@@ -90,6 +90,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.9",
     "@shadcn/ui": "^0.0.4",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.51.15",
